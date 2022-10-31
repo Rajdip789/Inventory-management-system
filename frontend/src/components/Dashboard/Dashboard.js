@@ -1,14 +1,16 @@
 import React from 'react'
-import AsideNavbar from '../Asidenavbar/AsideNavbar'
 import './Dashboard.scss'
+import Feature from './Features/Feature'
+import Chart from './chart/Chart'
+
 
 function Dashboard() {
-  return (
-	<div className='dashboard'>
-    <div className='widgts'>
-    </div>
-  </div>
-  )
+	return (
+		<div className='dashboard'>
+			<Feature />
+			<Chart />
+		</div>
+	)
 }
 
 export default Dashboard

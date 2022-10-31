@@ -1,0 +1,44 @@
+.app.dark {
+	background-color: #222;
+	color: rgb(156, 156, 156);
+
+	.header {
+		color: #999;
+		border-top: #333;
+
+		.search {
+			border-color: gray;
+		}
+	}
+
+	.asideNavbar {
+		background-color: #111;
+		border-color: #333;
+
+		.top {
+			.logo {
+				color: #999;
+			}
+		}
+
+		.hr {
+			border-color: #333;
+		}
+
+		ul {
+			li {
+				&:hover {
+					background-color: #333;
+				}
+			}
+
+			.icon {
+				color: #999;
+			}
+		}
+	}
+
+	input {
+		background-color: transparent;
+	}
+}

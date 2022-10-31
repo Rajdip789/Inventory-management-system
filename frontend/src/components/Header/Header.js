@@ -29,7 +29,7 @@ const Header = () => {
           <SearchOutlinedIcon />
         </div>
         <div className="items">
-          <div className="item">
+          <div className="item" >
             <LanguageOutlinedIcon className="icon" />
             English
           </div>

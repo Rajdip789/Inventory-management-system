@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Login from './components/Login/Login'
@@ -6,7 +6,9 @@ import AsideNavbar from './components/Asidenavbar/AsideNavbar';
 import Header from './components/Header/Header';
 import Dashboard from './components/Dashboard/Dashboard';
 import Employee from './components/Employee/Employees';
+import EmployeeAddNew from './components/Employee/EmployeeAddNew';
 import Product from './components/Product/Products';
+import ProductAddNew from './components/Product/ProductAddNew';
 import Supplier from './components/Supplier/Suppliers';
 import Expense from './components/Expense/Expenses';
 import Customer from './components/Customer/Customer';
@@ -14,24 +16,36 @@ import Order from './components/Order/Orders';
 import Profile from './components/Profile/Profile';
 import Settings from './components/Settings/Settings';
 
+import "./style/dark.scss"
+
+let styleObj = {
+	flexGrow: "1",
+	display: "flex",
+	flexDirection: "column"
+}
 
 function App() {
+
 	return (
-		<div>
+		<div
+			className=""
+		> 
 			<BrowserRouter>
 				<Routes>
+					{/* <Route path='*' element={<NotFound />}/> */}
+					{/* <Route path='/unauthorized' element={<Unauthorized />}/> */}
 					<Route path='/login' element={<Login />}/>
-					<Route path='/dashboard' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Dashboard /></div></div>}/>
-					<Route path='/employees' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Employee /></div></div>}/>
-					<Route path='/products' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Product /></div></div>}/>
-					<Route path='/suppliers' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Supplier /></div></div>}/>
-					<Route path='/expenses' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Expense /></div></div>}/>
-					<Route path='/customers' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Customer /></div></div>}/>
-					<Route path='/orders' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/> <Order/></div></div>}/>
-					<Route path='/profile' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Profile/> </div></div>}/>
-					<Route path='/settings' element={<div style={{display:"flex"}}><AsideNavbar/><div style={{flexGrow:"1"}}><Header/><Settings/></div></div>}/>
-					
-					{/* <DefaultContainer/> */}
+					<Route path='/dashboard' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Dashboard /></div></div>}/>
+					<Route path='/employees' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Employee /></div></div>}/>
+					<Route path='/employees/addnew' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><EmployeeAddNew /></div></div>}/>
+					<Route path='/products' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Product /></div></div>}/>
+					<Route path='/products/addnew' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><ProductAddNew /></div></div>}/>
+					<Route path='/suppliers' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Supplier/></div></div>}/>
+					<Route path='/expenses' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Expense /></div></div>}/>
+					<Route path='/customers' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Customer /></div></div>}/>
+					<Route path='/orders' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/> <Order/></div></div>}/>
+					<Route path='/profile' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Profile/> </div></div>}/>
+					<Route path='/settings' element={<div style={{display:"flex"}}><AsideNavbar/><div style={styleObj}><Header/><Settings/></div></div>}/>
 				</Routes>
 			</BrowserRouter>
 		</div>

@@ -1,9 +1,9 @@
 const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
-const User = require('../models/user.model.js');
+const Customer = require('../models/customers.model.js');
 
-const user = new User();
+const customer = new Customer();
 
 const verifyJwt = (req, res, next) => {
 	const token = req.headers.access_token;
@@ -19,12 +19,8 @@ const verifyJwt = (req, res, next) => {
 	})
 }
 
-router.post('/login', user.login)
-router.post('/refresh_token', verifyJwt , user.refreshToken)
-router.post('/verifiy_token', user.verifyToken)
-router.post('/get_permission', verifyJwt, user.getPermission)
-router.post('/get_employees', verifyJwt, user.getEmployees)
-router.post('/add_employee', verifyJwt, user.addEmployee)
-router.post('/delete_employee', verifyJwt, user.deleteEmployee)
+
+router.post('/get_customers', verifyJwt, customer.getCustomers)
+router.post('/delete_customer', verifyJwt, customer.deleteCustomer)
 
 module.exports = router

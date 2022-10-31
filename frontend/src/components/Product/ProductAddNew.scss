@@ -1,7 +1,7 @@
-.suppliers {
+.productaddnew {
 	flex-grow: 1;
 
-	.supplier-header {
+	.product-header {
 		display: flex;
 		justify-content: space-between;
 		margin: 1rem;
@@ -187,6 +187,26 @@
 		100% {
 			transform: rotate(360deg);
 			background-position: 50% 36px;
+		}
+	}
+
+	.button-loader {
+		width: 25px;
+		height: 25px;
+		margin: 0 1rem;
+		border: 3px solid transparent;
+		border-top-color: #ffffff;
+		border-radius: 50%;
+		animation: button-loading-spinner 1s ease infinite;
+	}
+
+	@keyframes button-loading-spinner {
+		from {
+			transform: rotate(0turn);
+		}
+
+		to {
+			transform: rotate(1turn);
 		}
 	}
 }

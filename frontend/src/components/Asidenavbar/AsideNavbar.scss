@@ -1,6 +1,6 @@
 .asideNavbar {
 	height: 100vh;
-	min-width: 150px;
+	min-width: 200px;
 	border-right: 0.5px solid rgb(230, 227, 227);
 	background-color: white;
   
@@ -11,9 +11,10 @@
 		justify-content: center;
 
 		.logo {
-			font-size: 20px;
+			font-size: 25px;
 			font-weight: bold;
-			color: #6439ff;
+			// color: #6439ff;
+			color: #2cd498;
 		}
 	}
   
@@ -54,7 +55,7 @@
 				}
 		
 				span{
-					font-size: 15px;
+					font-size: 16px;
 					font-weight: 600;
 					color: #888;
 					margin-left: 10px;

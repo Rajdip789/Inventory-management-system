@@ -1,0 +1,13 @@
+TODO LIST:
+
+1. Complete add products features css
+2. Unauthorized page/ Not found page
+
+3. Complete views/edit product feature
+
+4. View/edit button according to permissions and delete button
+
+5. Confirmation before delete in every page
+6. Add new employee page
+7. Add new customer page
+8. Add new supplier page
