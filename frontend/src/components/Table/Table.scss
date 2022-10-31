@@ -1,0 +1,30 @@
+.mytable {
+	color: rgb(46, 46, 46);
+	width: 100%;
+	text-align: center;
+	// border: 1.8px rgba(180, 180, 180, 0.329) solid;
+	border-collapse: collapse;
+
+	th, td {
+		border-bottom: 1.5px rgba(180, 180, 180, 0.329) solid;
+		padding: 0.5rem 0;
+		font-size: 1rem;
+	}
+
+	th {
+		width: 5rem;
+		font-size:medium;
+		padding: 0.7rem 0;
+		border-left: 1.5px rgba(180, 180, 180, 0.329) solid;
+		border-right: 1.5px rgba(180, 180, 180, 0.329) solid;
+	}
+
+	th:first-child,th:last-child{
+		border-left: none;
+		border-right: none;
+	}
+
+	tr:nth-child(even) {
+		background-color: #c7f2af
+	}
+}
