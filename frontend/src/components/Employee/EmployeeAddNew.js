@@ -3,6 +3,7 @@ import './EmployeeAddNew.scss'
 
 import moment from 'moment'
 import swal from 'sweetalert';
+import CryptoJS from 'crypto-js';
 import { setCookie, getCookie } from '../../cookie';
 
 function EmployeeAddNew() {
@@ -98,7 +99,7 @@ function EmployeeAddNew() {
 		obj.name = name;
 		obj.address = address;
 		obj.email = email;
-		obj.password = password;
+		obj.password = CryptoJS.AES.encrypt(password, process.env.REACT_APP_CRYPTOJS_SEED).toString();
 
 		setSubmitButtonState(true)
 
@@ -148,26 +149,26 @@ function EmployeeAddNew() {
 				<div className="card">
 					<div className="container" style={{display:"flex",flexDirection:"column"}}>
 
-						<div style={{display:"flex"}}>
+						<div style={{display:"flex", justifyContent: "space-evenly"}}>
 							<div className="right" >									
-								<div className="row" style={{display : 'flex'}}>
+								<div className="row" style={{display : 'flex', marginTop: "0.5rem"}}>
 									<div className='col'>
 										<label>Name</label>
-										<input type='text' value={name} onChange={(e)=>{setName(e.target.value)}} />
+										<input className='my_input' type='text' value={name} onChange={(e)=>{setName(e.target.value)}} />
 									</div>
 									<div className='col'>
 										<label>Address</label>
-										<input type='text' value={address} onChange={(e)=>{setAddress(e.target.value)}} />
+										<input className='my_input' type='text' value={address} onChange={(e)=>{setAddress(e.target.value)}} />
 									</div>
 								</div>	
-								<div className="row" style={{display : 'flex'}}>
+								<div className="row" style={{display : 'flex', marginTop: "0.5rem"}}>
 									<div className='col'>
 										<label>Email</label>
-										<input type='email' value={email} onChange={(e)=>{setEmail(e.target.value)}} />
+										<input className='my_input' type='email' value={email} onChange={(e)=>{setEmail(e.target.value)}} />
 									</div>
 									<div className='col'>
 										<label>Password</label>
-										<input type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} />
+										<input className='my_input' type='password' value={password} onChange={(e)=>{setPassword(e.target.value)}} />
 									</div>
 								</div>								
 							</div>
@@ -175,7 +176,7 @@ function EmployeeAddNew() {
 
 						{ 
 							permission.create && 
-							<button className='btn success' style={{alignSelf:"center"}} disabled={submitButtonState} onClick={() => {insertEmployee()}} >
+							<button className='btn success' style={{alignSelf:"center", marginTop: "1rem"}} disabled={submitButtonState} onClick={() => {insertEmployee()}} >
 								{!submitButtonState ? <span>Submit</span>:<span><div className="button-loader"></div></span>}
 							</button>
 						}	

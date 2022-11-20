@@ -1,7 +1,5 @@
 const db = require('../db/conn.js');
 const jwt = require('jsonwebtoken');
-const Cryptr = require('cryptr');
-const cryptr = new Cryptr(process.env.CRYPTER_SEED);
 const uniqid = require("uniqid")
 const fs = require("fs")
 const path = require("path")
@@ -46,6 +44,35 @@ class Product {
 		}
 	}
 
+	getProductsSearch = (req, res) => {
+		try {
+			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let email = d.payload.email;
+			let role = d.payload.role;
+
+			new Promise((resolve, reject) => {
+				let q = `SELECT * FROM products WHERE name LIKE '${req.body.search_value}%' LIMIT 10`
+				db.query(q, (err, result) => {
+					if (err) {
+						return reject(err);
+					}
+					// console.log(result)
+					resolve({ operation: "success", message: '10 products got', info: {products: result} });
+				})
+			})
+			.then((value) => {
+				res.send(value);
+			})
+			.catch((err) => {
+				console.log(err);
+				res.send({ operation: "error", message: 'Something went wrong' });
+			})
+		} catch (error) {
+			console.log(error);
+			res.send({ operation: "error", message: 'Something went wrong' });
+		}
+	}
+
 	addProduct = (req, res) => {
 		try {
 			let d = jwt.decode(req.headers.access_token, { complete: true });
@@ -53,8 +80,8 @@ class Product {
 			let role = d.payload.role;
 
 			new Promise((resolve, reject) => {
-				let q = "INSERT INTO `products`(`product_id`, `name`, `gender`, `size`, `material`, `category`, `description`, `image`, `selling_price`, `purchase_price`) VALUES (?,?,?,?,?,?,?,?,?,?)"
-				db.query(q, [uniqid(), req.body.name, req.body.gender, req.body.size, req.body.material, req.body.category, req.body.description, req.body.f_name, req.body.selling_price, req.body.purchase_price], (err, result) => {
+				let q = "INSERT INTO `products`(`product_id`, `name`, `gender`, `size`, `material`, `category`, `description`, `product_stock`, `image`, `selling_price`, `purchase_price`) VALUES (?,?,?,?,?,?,?,?,?,?,?)"
+				db.query(q, [uniqid(), req.body.name, req.body.gender, req.body.size, req.body.material, req.body.category, req.body.description, req.body.product_stock, req.body.f_name, req.body.selling_price, req.body.purchase_price], (err, result) => {
 					if (err) {
 						return reject(err);
 					}

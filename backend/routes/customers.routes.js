@@ -21,6 +21,8 @@ const verifyJwt = (req, res, next) => {
 
 
 router.post('/get_customers', verifyJwt, customer.getCustomers)
+router.post('/add_customer', verifyJwt, customer.addCustomer)
 router.post('/delete_customer', verifyJwt, customer.deleteCustomer)
+router.post('/get_customers_search', verifyJwt, customer.getCustomersSearch)
 
 module.exports = router

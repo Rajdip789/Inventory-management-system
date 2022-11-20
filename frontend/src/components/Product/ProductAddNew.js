@@ -15,9 +15,10 @@ function ProductAddNew() {
 	const [material, setMaterial] = useState('')
 	const [category, setCategory] = useState('')
 	const [description, setDescription] = useState('')
+	const [stock, setStock] = useState(0)
 	const [image, setImage] = useState('')
-	const [sellingPrice, setSellingPrice] = useState('')
-	const [purchasePrice, setPurchasePrice] = useState('')
+	const [sellingPrice, setSellingPrice] = useState(0)
+	const [purchasePrice, setPurchasePrice] = useState(0)
 
 	const [submitButtonState, setSubmitButtonState] = useState(false)
 
@@ -103,6 +104,10 @@ function ProductAddNew() {
 			swal("Oops!", "Purchase Price can't be empty", "error")
 			return;
 		}
+		if (stock < 0) {
+			swal("Oops!", "Product stock can't be negative", "error")
+			return;
+		}
 
 		let f = new FormData();
 		f.append('name', name)
@@ -111,6 +116,7 @@ function ProductAddNew() {
 		f.append('material', material)
 		f.append('category', category)
 		f.append('description', description)
+		f.append('product_stock', stock)
 		f.append('image', image)
 		f.append('selling_price', sellingPrice)
 		f.append('purchase_price', purchasePrice)
@@ -140,9 +146,10 @@ function ProductAddNew() {
 			setMaterial('')
 			setCategory('')
 			setDescription('')
+			setStock(0)
 			setImage('')
-			setSellingPrice('')
-			setPurchasePrice('')
+			setSellingPrice(0)
+			setPurchasePrice(0)
 			setImageData(null)
 		} else {
 			swal("Oops!", body.message, "error")
@@ -186,11 +193,11 @@ function ProductAddNew() {
 									}}
 								/>
 							</div>
-							<div className="right" >								
-								<div className="row" style={{display : 'flex'}}>
+							<div className="right" style={{marginLeft: "1rem"}}>								
+								<div className="row" style={{display : 'flex', marginTop: "0.5rem"}}>
 									<div className='col'>
 										<label>Name</label>
-										<input type='text' value={name} onChange={(e)=>{setName(e.target.value)}} />
+										<input className='my_input' type='text' value={name} onChange={(e)=>{setName(e.target.value)}} />
 									</div>
 									<div className='col'>
 										<label>Gender:</label>
@@ -199,42 +206,48 @@ function ProductAddNew() {
 										<label><input type="radio" style={{margin:"0 1rem"}} checked={gender=="others"} onChange={()=>{setGender("others")}} />Others</label>
 									</div>
 								</div>	
-								<div className="row" style={{display : 'flex'}}>
+								<div className="row" style={{display : 'flex', marginTop: "0.5rem"}}>
 									<div className='col'>
 										<label>Size</label>
-										<input type='text' value={size} onChange={(e)=>{setSize(e.target.value)}} />
+										<input className='my_input' type='text' value={size} onChange={(e)=>{setSize(e.target.value)}} />
 									</div>
 									<div className='col'>
 										<label>Material</label>
-										<input type='text' value={material} onChange={(e)=>{setMaterial(e.target.value)}} />
+										<input className='my_input' type='text' value={material} onChange={(e)=>{setMaterial(e.target.value)}} />
 									</div>
 								</div>	
-								<div className="row" style={{display : 'flex'}}>
+								<div className="row" style={{display : 'flex', marginTop: "0.5rem"}}>
 									<div className='col'>
 										<label>Category</label>
-										<input type='text' value={category} onChange={(e)=>{setCategory(e.target.value)}} />
+										<input className='my_input' type='text' value={category} onChange={(e)=>{setCategory(e.target.value)}} />
 									</div>
 									<div className='col'>
 										<label>Description</label>
-										<input type='text' value={description} onChange={(e)=>{setDescription(e.target.value)}} />
+										<input className='my_input' type='text' value={description} onChange={(e)=>{setDescription(e.target.value)}} />
 									</div>
 								</div>	
-								<div className="row" style={{display : 'flex'}}>
+								<div className="row" style={{display : 'flex', marginTop: "0.5rem"}}>
 									<div className='col'>
 										<label>Selling Price</label>
-										<input type='number' value={sellingPrice} onChange={(e)=>{setSellingPrice(e.target.value)}} />
+										<input className='my_input' type='number' value={sellingPrice} onChange={(e)=>{setSellingPrice(parseFloat(e.target.value))}} />
 									</div>
 									<div className='col'>
 										<label>Purchase Price</label>
-										<input type='number' value={purchasePrice} onChange={(e)=>{setPurchasePrice(e.target.value)}} />
+										<input className='my_input' type='number' value={purchasePrice} onChange={(e)=>{setPurchasePrice(parseFloat(e.target.value))}} />
 									</div>
-								</div>								
+								</div>	
+								<div className="row" style={{display : 'flex', marginTop: "0.5rem"}}>
+									<div className='col'>
+										<label>Stock</label>
+										<input className='my_input' type='number' value={stock} onChange={(e)=>{setStock(parseInt(e.target.value))}} />
+									</div>
+								</div>							
 							</div>
 						</div>
 
 						{ 
 							permission.create && 
-							<button className='btn success' style={{alignSelf:"center"}} disabled={submitButtonState} onClick={() => {insertProduct()}} >
+							<button className='btn success' style={{alignSelf:"center", marginTop: "1rem"}} disabled={submitButtonState} onClick={() => {insertProduct()}} >
 								{!submitButtonState ? <span>Submit</span>:<span><div className="button-loader"></div></span>}
 							</button>
 						}	
