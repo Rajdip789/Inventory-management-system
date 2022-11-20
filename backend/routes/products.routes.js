@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const jwt = require("jsonwebtoken");
 const Product = require('../models/products.model.js');
+
 const uniqid = require("uniqid")
 const multer = require("multer")
 const path = require('path');
@@ -24,7 +25,7 @@ const verifyJwt = (req, res, next) => {
 
 const storage = multer.diskStorage({
 	destination: function (req, file, cb) {
-	  	cb(null, path.resolve("./") + '/uploads')
+	  	cb(null, path.resolve("./") + '/public/uploads')
 	},
 	filename: function (req, file, cb) {
 		let f_name = uniqid()+ '_' +file.originalname
@@ -38,5 +39,6 @@ const upload = multer({ storage: storage })
 router.post('/add_product', verifyJwt, upload.single("image"), product.addProduct)
 router.post('/delete_product', verifyJwt, product.deleteProduct)
 router.post('/get_products', verifyJwt, product.getProducts)
+router.post('/get_products_search', verifyJwt, product.getProductsSearch)
 
 module.exports = router

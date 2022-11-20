@@ -7,7 +7,7 @@ import moment from 'moment'
 import swal from 'sweetalert';
 import { setCookie, getCookie } from '../../cookie';
 
-function Supplier() {
+function Suppliers() {
 	const [pageState, setPageState] = useState(1)
 	const [permission, setPermission] = useState(null)
 
@@ -79,6 +79,9 @@ function Supplier() {
 			body : JSON.stringify({start_value : value})
 		})
 
+		//await new Promise(r => setTimeout(r, 10000))
+		
+
 		let body = await result.json()
 		setSuppliers(body.info.suppliers)
 		setSupplierCount(body.info.count)
@@ -137,8 +140,7 @@ function Supplier() {
 				tObj.addedon = moment(obj.timeStamp).format('MMMM Do, YYYY');
 				tObj.action = 
 				<>
-					{/* <button className='btn warning' style={{marginRight: '0.5rem'}}>View/Edit</button> */}
-					<button className='btn danger' style={{marginLeft: '0.5rem'}} onClick={() => {deleteSupplier(obj.supplier_id)}}>Delete</button>
+					<button className='btn warning' style={{marginRight: '0.5rem'}}>View/Edit</button>					
 					{
 						permission.delete && 
 						<button className='btn danger' style={{marginLeft: '0.5rem'}}
@@ -210,8 +212,9 @@ function Supplier() {
 							</div>
 						</div>
 			}
+
 		</div>
 	)
 }
 
-export default Supplier
+export default Suppliers

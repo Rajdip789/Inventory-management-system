@@ -175,39 +175,39 @@ function Customer() {
 
 			{
 				pageState == 1 ?
-					<div className="card">
-						<div className="container">
-							<div style={{ height: '20rem', backgroundColor: '#cef0cb', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2rem', margin: '1rem' }}>
-								<span className="loader"></span>
+				<div className="card">
+					<div className="container">
+						<div style={{ height: '20rem', backgroundColor: '#cef0cb', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2rem', margin: '1rem' }}>
+							<span className="loader"></span>
+						</div>
+					</div>
+				</div>
+				: pageState == 2 ?
+				<div className="card">
+					<div className="container">
+						<Table
+							headers={['Sl.', 'Name', 'Address', 'Email', 'Added on', 'Action']}
+							data={data}
+							current_page={tablePage}
+							data_count={customerCount}
+							custom_styles = {["3rem", "5rem", "8rem", "5rem", "8rem", "10rem"]}
+							tablePageChangeFunc = {setTablePage}
+						/>
+					</div>
+				</div>
+				:
+				<div className="card">
+					<div className="container">
+						<div style={{ display: "flex", height: "10rem", backgroundColor: "#e6bfbf", border: "2px red dotted", borderRadius: "2rem", alignItems: "center", justifyContent: "center", margin: "1rem"}}>
+							<div>
+								
+							</div>
+							<div style={{ fontSize: 'x-large', fontWeight: 'bold', color: 'white', fontFamily: 'cursive'}}>
+								Something went wrong!
 							</div>
 						</div>
 					</div>
-					: pageState == 2 ?
-						<div className="card">
-							<div className="container">
-								<Table
-									headers={['Sl.', 'Name', 'Address', 'Email', 'Added on', 'Action']}
-									data={data}
-									current_page={tablePage}
-									data_count={customerCount}
-									custom_styles = {["3rem", "5rem", "8rem", "5rem", "8rem", "10rem"]}
-									tablePageChangeFunc = {setTablePage}
-								/>
-							</div>
-						</div>
-						:
-						<div className="card">
-							<div className="container">
-								<div style={{ display: "flex", height: "10rem", backgroundColor: "#e6bfbf", border: "2px red dotted", borderRadius: "2rem", alignItems: "center", justifyContent: "center", margin: "1rem"}}>
-									<div>
-										
-									</div>
-									<div style={{ fontSize: 'x-large', fontWeight: 'bold', color: 'white', fontFamily: 'cursive'}}>
-										Something went wrong!
-									</div>
-								</div>
-							</div>
-						</div>
+				</div>
 			}
 		</div>
 	)

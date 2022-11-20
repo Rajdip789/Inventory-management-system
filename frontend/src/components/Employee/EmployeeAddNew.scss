@@ -209,4 +209,20 @@
 			transform: rotate(1turn);
 		}
 	}
+
+	.my_input{
+		padding: 8px 20px;
+		display: inline-block;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+		width: 90%;
+
+		&:focus{			
+			box-shadow: 0 0 6px 0px darkgrey;
+		}
+		&:focus-visible{
+			outline: none;
+		}
+	}
 }

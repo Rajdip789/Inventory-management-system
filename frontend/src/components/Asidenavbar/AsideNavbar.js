@@ -1,6 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
+import { Link } from "react-router-dom";
 import "./AsideNavbar.scss";
+
+import swal from 'sweetalert';
 import { setCookie, getCookie } from '../../cookie';
+// import { DarkModeContext } from "../../context/darkModeContext";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
@@ -14,10 +18,6 @@ import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
 import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
-
-import { Link } from "react-router-dom";
-// import { DarkModeContext } from "../../context/darkModeContext";
-import { useContext } from "react";
 
 function AsideNavbar() {
 	//   const { dispatch } = useContext(DarkModeContext);
@@ -67,6 +67,22 @@ function AsideNavbar() {
 			window.location.href = '/login'
 		}
 	}, [])
+
+	const logout = () => {
+		swal({
+			title: "Are you sure?",
+			text: "Are you sure, you want to logout!",
+			icon: "warning",
+			buttons: true,
+			dangerMode: true,
+		})
+		.then((willDelete) => {
+			if (willDelete) {
+				setCookie('accessToken', '', -1); 
+				window.location.href = '/login';
+			}
+		});
+	}
 
 	return (
 		<div className="asideNavbar">
@@ -188,7 +204,7 @@ function AsideNavbar() {
 							</li>
 						</Link>
 					}
-					<li onClick={() => {setCookie('accessToken', '', -1); window.location.href = '/login'}}>
+					<li onClick={() => {logout()}}>
 						<ExitToAppIcon className="icon" />
 						<span>Logout</span>
 					</li>

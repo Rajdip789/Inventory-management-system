@@ -1,5 +1,6 @@
 .employees {
 	flex-grow: 1;
+	background-color: #fafafa;
 
 	.employee-header {
 		display: flex;
@@ -16,9 +17,9 @@
 	}
 
 	.card {
-		-webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-		// box-shadow: 2px 4px 10px 1px rgba(228, 6, 6, 0.47);
-		box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+		-webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+    	box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+		background-color: white;
 		transition: 0.3s;
 		margin: 20px;
 		height: 90%;

@@ -133,8 +133,7 @@ function Products() {
 				tObj.name = obj.name;
 				tObj.gender = obj.gender;
 				tObj.size = obj.size;
-				tObj.purchase_price = obj.purchase_price;
-				tObj.selling_price = obj.selling_price;
+				tObj.stock = obj.product_stock;
 				tObj.addedon = moment(obj.timeStamp).format('MMMM Do, YYYY');
 				tObj.action = 
 				<>
@@ -187,11 +186,11 @@ function Products() {
 				<div className="card">
 					<div className="container">
 						<Table
-							headers={['Sl.', 'Name', 'Gender', 'Size', 'Purchase price', 'Selling price', 'Added on', 'Action']}
+							headers={['Sl.', 'Name', 'Gender', 'Size', 'Current Stock', 'Added on', 'Action']}
 							data={data}
 							current_page={tablePage}
 							data_count={prodCount}
-							custom_styles = {["3rem", "5rem", "4rem", "4rem", "6rem", "6rem", "8rem", "10rem"]}
+							custom_styles = {["3rem", "8rem", "5rem", "5rem", "6rem", "8rem", "10rem"]}
 							tablePageChangeFunc = {setTablePage}
 						/>
 					</div>

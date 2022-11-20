@@ -3,6 +3,7 @@ import './Login.scss';
 import { setCookie, getCookie } from '../../cookie';
 
 import swal from 'sweetalert';
+import CryptoJS from 'crypto-js';
 
 function Login() {
 	const [email, setEmail] = useState('');
@@ -53,9 +54,8 @@ function Login() {
 
 		let obj = {}
 		obj.email = email;
-		obj.password = password;
-
-		//console.log(obj)
+		obj.password = CryptoJS.AES.encrypt(password, process.env.REACT_APP_CRYPTOJS_SEED).toString();
+		
 		setSubmitButtonState(true)
 
 		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/login`, {
