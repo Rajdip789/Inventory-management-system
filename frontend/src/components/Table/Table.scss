@@ -1,30 +1,75 @@
-.mytable {
-	color: rgb(46, 46, 46);
-	width: 100%;
-	text-align: center;
-	// border: 1.8px rgba(180, 180, 180, 0.329) solid;
-	border-collapse: collapse;
+.dataTable {
+	.tableToolbar {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin: 5px;
 
-	th, td {
-		border-bottom: 1.5px rgba(180, 180, 180, 0.329) solid;
-		padding: 0.5rem 0;
-		font-size: 1rem;
+		height: 50px;
+
+		.my__icon {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			width: 2.2rem;
+			height: 2.2rem;
+			border-radius: 50%;
+			background-color: #e9e4e4;
+			margin: 0rem 0.6rem;
+			cursor: pointer;
+
+			&:hover {
+				background-color: darkgray;
+			}
+		}
+
+		.search__text {
+			border: none;
+			border-bottom: 1px solid rgb(46, 46, 46);
+			width: 0;
+			transition: all 0.3s ease-in-out;
+
+			&:focus {
+				width: 5rem;
+				outline: none;
+				border-bottom-width: 2px;
+			}
+		}
 	}
 
-	th {
-		width: 5rem;
-		font-size:medium;
-		padding: 0.7rem 0;
-		border-left: 1.5px rgba(180, 180, 180, 0.329) solid;
-		border-right: 1.5px rgba(180, 180, 180, 0.329) solid;
-	}
+	.mytable {
+		color: rgb(46, 46, 46);
+		width: 100%;
+		text-align: center;
+		border-collapse: collapse;
 
-	th:first-child,th:last-child{
-		border-left: none;
-		border-right: none;
-	}
+		th,
+		td {
+			border-bottom: 1.5px rgba(180, 180, 180, 0.329) solid;
+			padding: 0.5rem 0;
+			font-size: 1rem;
+		}
 
-	tr:nth-child(even) {
-		background-color: #c7f2af
+		th {
+			width: 5rem;
+			font-size: medium;
+			padding: 0.7rem 0;
+			border-left: 1.5px rgba(180, 180, 180, 0.329) solid;
+			border-right: 1.5px rgba(180, 180, 180, 0.329) solid;
+		}
+
+		th:first-child,
+		th:last-child {
+			border-left: none;
+			border-right: none;
+		}
+
+		tr:nth-child(even) {
+			background-color: darkseagreen
+		}
 	}
+}
+
+.showColumnHover:hover{
+	box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.2);;	
 }

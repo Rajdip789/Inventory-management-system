@@ -1,4 +1,10 @@
 .dashboard {
-    flex: 4;
+    flex-grow: 1;
     background-color: #fafafa;
+    height: calc(100vh - 50px);
+
+    @media screen and (max-width: 768px)  {
+        width: 100vw;
+        height: 100vh;
+    }
 }

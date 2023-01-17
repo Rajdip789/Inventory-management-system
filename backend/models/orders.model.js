@@ -14,10 +14,26 @@ class Order {
 			let role = d.payload.role;
 
 			new Promise((resolve, reject) => {
-				let q = "SELECT o.*, c.name as customer_name FROM orders o, customers c WHERE o.customer_id=c.customer_id ORDER BY o.order_ref LIMIT ?, 10"
+				let tsa = ""
+				if(req.body.search_value!="")
+				{
+					tsa = `WHERE c.name LIKE "%${req.body.search_value}%" OR o.order_ref LIKE "%${req.body.search_value}%"` 
+				}
+ 
+				let tso = ""
+				if((req.body.sort_column!="") && (req.body.sort_order!=""))
+				{
+					tso = `ORDER BY ${req.body.sort_column} ${req.body.sort_order}` 
+				}
+
+				let q = "SELECT o.*, c.name as customer_name FROM orders o LEFT JOIN customers c ON o.customer_id=c.customer_id " + tsa + tso + " LIMIT ?, 10"
 				db.query(q, [req.body.start_value], (err, result) => {
 					if (err) {
 						return reject(err);
+					}
+
+					if(req.body.search_value!=""){
+						return resolve({ operation: "success", message: 'search orders got', info: {orders: result, count: result.length} });
 					}
 					let q = "SELECT COUNT(*) AS val FROM `orders`"
 					db.query(q, (err, result2) => {

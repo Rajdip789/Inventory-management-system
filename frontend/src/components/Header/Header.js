@@ -1,87 +1,98 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link } from "react-router-dom";
+import { OverlayTrigger, Popover } from 'react-bootstrap';
+
+import { DarkModeContext } from "../../context/darkModeContext";
+import { getCookie } from '../../cookie';
 import "./Header.scss";
 
-import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import FullscreenExitOutlinedIcon from "@mui/icons-material/FullscreenExitOutlined";
-import NotificationsNoneOutlinedIcon from "@mui/icons-material/NotificationsNoneOutlined";
-import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
-import ListOutlinedIcon from "@mui/icons-material/ListOutlined";
-
-// import { DarkModeContext } from "../../context/darkModeContext";
-import { getCookie } from '../../cookie';
+import LightModeOutlined from "@mui/icons-material/LightModeOutlined";
+import Fullscreen from "@mui/icons-material/Fullscreen";
 
 const Header = () => {
-	// const { dispatch } = useContext(DarkModeContext);
+	const { dispatch } = useContext(DarkModeContext);
 	const [userName, setUserName] = useState('')
+	const [userImage, setUserImage] = useState(null)
+	const [userEmail, setUserEmail] = useState('')
+	const [fullscreen, setFullscreen] = useState(false)
+	const [darkMode, setDarkMode] = useState(false)
 
-	// const getProfile = async () => {
-	// 	let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_profile`, {
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-type': 'application/json; charset=UTF-8',
-	// 			'access_token': getCookie('accessToken'),
-	// 		},
-	// 	})
+	const getProfile = async () => {
+		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_profile`, {
+			method: 'POST',
+			headers: {
+				'Content-type': 'application/json; charset=UTF-8',
+				'access_token': getCookie('accessToken'),
+			},
+		})
 
-	// 	let body = await result.json()
-	// 	setUserName(body.info.profile.user_name)
-	// 	console.log(userName)
-	// }
+		let body = await result.json()
+		setUserName(body.info.profile[0].user_name)
+		setUserImage(body.info.profile[0].image)
+		setUserEmail(body.info.profile[0].email)
+	}
 
-	// useEffect(() => {
-	//   getProfile();
-	// }, [userName])
+	useEffect(() => {
+		getProfile();
+	}, [])
 
+	//console.log(document.fullscreenElement)
 	return (
 		<div className="header">
-			{/* <div className="top">
-          <Link to="/dashboard" style={{ textDecoration: "none" }}>
-            <span className="logo">Admin</span>
-          </Link>
-			</div> */}
 			<div className="wrapper">
-				<div className="search">
-					<input type="text" placeholder="Search..." />
-					<SearchOutlinedIcon />
-				</div>
 				<div className="items">
 					<div className="item" >
-						<LanguageOutlinedIcon className="icon" />
+						<LanguageOutlinedIcon className="icon mx-1" />
 						English
 					</div>
-					<div className="item">
-						<DarkModeOutlinedIcon
-							className="icon"
-						// onClick={() => dispatch({ type: "TOGGLE" })}
-						/>
+					<div className="item" onClick={() => { dispatch({ type: "TOGGLE" }); setDarkMode(!darkMode) }}>
+						{
+							darkMode ?
+							<LightModeOutlined className="icon" /> :
+							<DarkModeOutlinedIcon className="icon" /> 
+						}
 					</div>
-					<div className="item">
-						<FullscreenExitOutlinedIcon className="icon" />
+					<div className="item item_responsive" title="Full screen" onClick={() => {document.fullscreenElement ? document.exitFullscreen() : document.body.requestFullscreen(); setFullscreen(!fullscreen);}}>
+						{
+							fullscreen ? 
+							<FullscreenExitOutlinedIcon className="icon" /> :
+							<Fullscreen className="icon" />
+						}		
 					</div>
-					<div className="item">
-						<NotificationsNoneOutlinedIcon className="icon" />
-						<div className="counter">1</div>
-					</div>
-					<div className="item">
-						<ChatBubbleOutlineOutlinedIcon className="icon" />
-						<div className="counter">2</div>
-					</div>
-					{/* <div className="item">
-							<ListOutlinedIcon className="icon" />
-						</div> */}
-					<div className="item">
-						<img
-							src="https://images.pexels.com/photos/941693/pexels-photo-941693.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500"
-							alt=""
-							className="avatar"
-						/>
-					</div>
-					<div className="item">
-						<h4 className="icon">{userName}</h4>
-					</div>
+
+					<OverlayTrigger
+						trigger="click"
+						placement="bottom"
+						overlay={
+							(<Popover id="popover-basic" style={{ backgroundColor : "#ebf4ee", boxShadow: "rgb(0 0 0 / 75%) 0px 0px 16px -5px" }}>
+								<Popover.Body style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "3px" }}>
+									{
+										userImage === null ?
+											<div style={{ width: "60px" ,height: "60px", borderRadius: "50%", backgroundColor: "lightgreen", fontSize: "larger", textAlign: "center", color: "#2b572d", fontWeight: "bold", lineHeight: "60px", textTransform: "uppercase" }}>{userName[0]}</div> :
+											<img src={`${process.env.REACT_APP_BACKEND_ORIGIN}/profile_images/${userImage}`} alt="" style={{ width: "60px" ,height: "60px", borderRadius: "50%" }} />
+									}
+									<div style={{ fontSize: "normal", textTransform: "uppercase" }} >{userName}</div>
+									<div style={{ fontSize: "smaller" }} >{userEmail}</div>
+
+									<div className="header-pencil" onClick={() => window.location.href = "/profile"}>
+										<svg width="16px" height="16px" viewBox="0 0 528.899 528.899">
+											<g><path d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981   c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611   C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069   L27.473,390.597L0.3,512.69z"/></g>
+										</svg>
+									</div>
+								</Popover.Body>
+							</Popover>)
+						}
+					>
+						<div className="item" title="Profile">
+							{
+								userImage === null ?
+									<div className="avatar avatar-textIcon" >{userName[0]}</div> :
+									<img src={`${process.env.REACT_APP_BACKEND_ORIGIN}/profile_images/${userImage}`} alt="" className="avatar" />
+							}
+						</div>
+					</OverlayTrigger>
 				</div>
 			</div>
 		</div>

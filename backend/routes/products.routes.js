@@ -40,5 +40,8 @@ router.post('/add_product', verifyJwt, upload.single("image"), product.addProduc
 router.post('/delete_product', verifyJwt, product.deleteProduct)
 router.post('/get_products', verifyJwt, product.getProducts)
 router.post('/get_products_search', verifyJwt, product.getProductsSearch)
+router.post('/get_products_details_by_id', verifyJwt, product.getProductsDetailsById)
+router.post('/update_product', verifyJwt, upload.single("image"), product.updateProduct)
+router.post('/delete_product_image', verifyJwt, product.deleteProductImage)
 
 module.exports = router

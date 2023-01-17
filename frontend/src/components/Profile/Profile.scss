@@ -198,19 +198,33 @@
 			text-align: center;
 
 			img {
-				width: 55%;
+				max-width: 55%;
+				height: 13rem;
 				border-radius: 50%;
 				object-fit: cover;
 			}
 
-			.uploadButton{
+			.utilityButtonSuccess{
 				position: absolute;
-				bottom: 7%;
-				left: 46%;
+				bottom: 0;
+				left: 45%;
 
 				&:hover{
 					color: #04aa6d;
 					box-shadow: 0 0 6px 0px #04aa6d;
+					cursor: pointer;
+					border: none;
+				}
+			}
+
+			.utilityButtonDanger{
+				position: absolute;
+				bottom: 0;
+				left: 45%;
+
+				&:hover{
+					color: #b32610;
+					box-shadow: 0 0 6px 0px #b32610;
 					cursor: pointer;
 					border: none;
 				}
@@ -220,6 +234,15 @@
 		.right {
 			flex: 2;
 			text-align: center;
+
+			.passContainer {
+				display: flex;
+				margin: 1rem 0rem;
+
+				@media screen and (max-width: 768px) {
+					flex-direction: column;
+				}
+			}
 
 			.formInput {
 				flex: 1;
@@ -242,6 +265,7 @@
 					border-bottom: 1px solid gray;
 					&:focus {
 						outline: none;
+						border-width: 2px;
 					}
 				}
 			}
@@ -257,5 +281,15 @@
 				margin-top: 10px;
 			}
 		}
+
+		@media screen and (max-width: 768px) {
+			flex-direction: column;
+			justify-content: space-between;
+		}
 	}
+
+	@media screen and (max-width: 768px)  {
+        width: 100vw;
+        height: 95vh;
+    }
 }
