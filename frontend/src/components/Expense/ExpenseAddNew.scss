@@ -1,5 +1,7 @@
 .expenseaddnew {
 	flex-grow: 1;
+	background-color: #fafafa;
+	height: calc(100vh - 50px);
 
 	.expense-header {
 		display: flex;
@@ -17,17 +19,15 @@
 
 	.card {
 		-webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-		// box-shadow: 2px 4px 10px 1px rgba(228, 6, 6, 0.47);
 		box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
 		transition: 0.3s;
 		margin: 20px;
-		height: 90%;
 		border: 2px rgba(180, 180, 180, 0.329) solid;
 		border-radius: 5px;
 	}
 
 	.container {
-		padding: 2px 2px;
+		padding: 1rem;
 		height: 100%;
 	}
 

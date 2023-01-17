@@ -44,6 +44,7 @@ router.post('/get_permission', verifyJwt, user.getPermission)
 router.post('/get_employees', verifyJwt, user.getEmployees)
 router.post('/add_employee', verifyJwt, user.addEmployee)
 router.post('/delete_employee', verifyJwt, user.deleteEmployee)
+router.post('/update_employee', verifyJwt, user.updateEmployee)
 
 router.post('/get_profile', verifyJwt, user.getProfile)
 router.post('/update_profile', verifyJwt, upload.single("file"), user.updateProfile)

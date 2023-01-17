@@ -1,6 +1,7 @@
 .customers {
 	flex-grow: 1;
 	background-color: #fafafa;
+	height: calc(100vh - 50px);
 
 	.customer-header {
 		display: flex;
@@ -17,17 +18,18 @@
 	}
 
 	.card {
-		-webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-		box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
+		// -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+		// box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
 		background-color: white;
 		transition: 0.3s;
 		margin: 20px;
-		height: 90%;
 		border: 2px rgba(180, 180, 180, 0.329) solid;
 		border-radius: 5px;
 	}
 
 	.container {
+		-webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
+		box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
 		padding: 2px 2px;
 		height: 100%;
 	}

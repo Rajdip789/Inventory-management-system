@@ -9,12 +9,5 @@ const conn = mysql.createConnection({
 	password: process.env.PASSWORD,
 	database: process.env.DATABASE,
 });
-  
-// conn.connect((err) => {
-// 	if(err) console.log('Error : ---------------------' + err);
-// 	else {
-// 		console.log("Connection successful!")
-// 	}
-// })
 
 module.exports = conn;

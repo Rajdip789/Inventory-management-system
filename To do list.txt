@@ -1,23 +1,6 @@
 TODO LIST:
-1. Product stock related changes
-	i) product tablet stock column add     ✅
-	ii) product tablet stock column show     ✅
-	iii) product add page stock details input and api     ✅
-	iv) product add api SQL api update     ✅
-	v) order add api product stock decrement     ✅
-	vi) expenses add api product stock increment     ✅
-       
-2. Profile picture & Header related changes ✅
-	i) profile page profile update ✅
-	ii) get header details api, profile image  
-	iii) header front page show dynamic profile image 
-	iv) Dark mode 
-	v) profile update and password update button loading
      
-3. View edit related changes
-	i) All pages view edit function in extra large/ full screen modal
-     
-4. Dashboard related changes
+1. Dashboard related changes
 	i) top four small cards:
 		User/customer/supplier count
 		Current month all orders grand total
@@ -29,16 +12,13 @@ TODO LIST:
 		Product percentage according to gender in pie chart / donut chart
 	iii) Top five / ten trending items of selected month with images
 	iv) Line chart / curve chart of order total/ expenses total / revenue for selected monthly duration 
-	v) Total three api required for dashboard related information 
+	v) Total three api required for dashboard related information
+__________________________________
 
-5. Duplicate user, employee, customer, supplier check
-
-6. Scrollable content
-
-7. Complete add products, add employee, add supplier, add customer features css
-
-9. Page state while loading and something went wrong case
-10. Add ! icon in something went wrong page section
+*. Normal add pages form will not be increased therefore no scrollable - Rajdip
+*. Buttons in all pages except order
+*. Dark mode css improvement 
+*. Refresh Token
 
 
 

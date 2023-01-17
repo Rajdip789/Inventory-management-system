@@ -4,6 +4,7 @@ import { setCookie, getCookie } from '../../cookie';
 
 import swal from 'sweetalert';
 import CryptoJS from 'crypto-js';
+import { Link } from 'react-router-dom';
 
 function Login() {
 	const [email, setEmail] = useState('');
@@ -11,7 +12,7 @@ function Login() {
 	const [submitButtonState, setSubmitButtonState] = useState(false);
 
 	useEffect(() => {
-		if (getCookie('accessToken') != '') {
+		if (getCookie('accessToken') !== '') {
 			let obj = {}
 			obj.access_token = getCookie('accessToken');
 
@@ -25,7 +26,7 @@ function Login() {
 			.then(async (response) => {
 				let body = await response.json()
 				console.log(body)
-				if (body.operation == 'success') {
+				if (body.operation === 'success') {
 					window.location.href = '/dashboard'
 				}
 			})
@@ -37,7 +38,7 @@ function Login() {
 
 
 	const login = async () => {
-		if (email == "") {
+		if (email === "") {
 			swal("Oops!", "Email can't be empty", "error")
 			return;
 		}
@@ -47,7 +48,7 @@ function Login() {
 			return;
 		}
 
-		if (password == "") {
+		if (password === "") {
 			swal("Oops!", "Password can't be empty", "error")
 			return;
 		}
@@ -71,7 +72,7 @@ function Login() {
 		setSubmitButtonState(false)
 		console.log(body)
 
-		if (body.operation == 'success') {
+		if (body.operation === 'success') {
 			console.log('Login successfull')
 			setCookie('accessToken', body.info.accessToken, process.env.REACT_APP_JWT_EXPIRY)
 			window.location.href = '/dashboard'
@@ -108,7 +109,10 @@ function Login() {
 								<input type="password" placeholder='Password' name="Password" value={password} onChange={e => setPassword(e.target.value.trim())} />
 							</div>
 						</div>
-						<a href="#">Forgot Password?</a>
+						{/* <a href="#">Forgot Password?</a> */}
+						<Link to="/forgetpassword">
+							Forgot Password
+						</Link>
 						<button className="btn" disabled={submitButtonState} onClick={() => { login() }}>
 							{
 								!submitButtonState ?

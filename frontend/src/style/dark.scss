@@ -1,23 +1,24 @@
-.app.dark {
-	background-color: #222;
-	color: rgb(156, 156, 156);
+.dark {
+	background-color: #23272f;
+	color: white;
 
-	.header {
-		color: #999;
-		border-top: #333;
-
-		.search {
-			border-color: gray;
-		}
+	.toggelDiv {
+		background-color: #343434;
 	}
 
-	.asideNavbar {
-		background-color: #111;
+	.header {
+		color: #fafafa;
+		border-color: #333;
+		background-color: #1d1d25;
+	}
+
+	.asideNavbar__panel {
+		background-color: #1d1d25;
 		border-color: #333;
 
 		.top {
 			.logo {
-				color: #999;
+				color: darkseagreen;
 			}
 		}
 
@@ -28,17 +29,154 @@
 		ul {
 			li {
 				&:hover {
-					background-color: #333;
-				}
-			}
+					background-color: rgb(94, 94, 94);
 
-			.icon {
-				color: #999;
+					span {
+						color: #fafafa;
+					}
+				}
+
+				.icon {
+					color: darkseagreen;
+				}
 			}
 		}
 	}
 
-	input {
-		background-color: transparent;
+	.asideNavbar__menu {
+		background-color: rgba(29, 29, 37, 0.7);
+		backdrop-filter: blur(20px);
+		-webkit-backdrop-filter: blur(4px);
+
+		.top {
+			.toggelDiv {
+				background-color: #343434;
+			}
+		}
+
+		ul {
+			li {
+				&:hover {
+					background-color: rgba(83, 83, 83, 0.7);
+					backdrop-filter: blur(20px);
+					-webkit-backdrop-filter: blur(20px);
+				}
+
+				.icon {
+					color: #a7ffa7;
+				}
+
+				span {
+					color: rgba(172, 172, 172, 1);
+				}
+			}
+		}
+	}
+
+
+
+	.dashboard,
+	.employees,
+	.products,
+	.suppliers,
+	.expenses,
+	.customers,
+	.orders,
+	.profile,
+	.settings {
+		background-color: #23272f;
+
+		.featuredItem,
+		.chart {
+			background-color: #21242a;
+		}
+
+		.btn {
+			background-color: #23272f;
+		}
+
+		.title {
+			color: #fafafa;
+		}
+
+		.card {
+			background-color: #23272f;
+
+			.mytable {
+				color: #fafafa;
+			}
+		}
+
+		.bottom {
+			background-color: #23272f;
+
+			input {
+				background-color: transparent;
+				color: #fafafa;
+			}
+
+			textarea {
+				background-color: transparent;
+				color: #fafafa;
+			}
+		}
+	}
+
+	.employeeaddnew,
+	.productaddnew,
+	.supplieraddnew,
+	.expenseaddnew,
+	.customeraddnew,
+	.orderaddnew {
+		background-color: #23272f;
+
+		.card {
+			background-color: #23272f;
+
+			input {
+				background-color: transparent;
+				color: #fafafa;
+			}
+
+			.btn {
+				color: #ffffff;
+				background-color: #6c757d;
+				border-color: rgb(168, 166, 166);
+
+				&:hover {
+					background-color: #5c636a;
+					box-shadow: 0px 0px 4px 2px rgb(201 201 201 / 47%);
+				}
+			}
+
+			img {
+				border: 1px solid rgb(255, 255, 255);
+			}
+
+			.react-dropdown-dark__control {
+				background-color: #23272f;
+			}
+
+			.react-dropdown-dark__input-container {
+				color: white;
+			}
+
+			.react-dropdown-dark__menu {
+				background-color: #23272f;
+			}
+
+			.react-dropdown-dark__option--is-focused,
+			.react-dropdown-dark__option--is-selected {
+				background-color: rgb(94, 94, 94);
+			}
+
+			.react-dropdown-dark__single-value {
+				color: white;
+			}
+
+			.react-dropdown-dark__select-container {
+				background-color: rgb(94, 94, 94);
+			}
+		}
 	}
 }

@@ -1,50 +1,17 @@
 .header {
 	height: 50px;
 	border-bottom: 0.5px solid rgb(231, 228, 228);
+	background-color: white;
 	display: flex;
 	align-items: center;
 	font-size: 14px;
 	color: #555;
 
-	.top {
-		height: 50px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		width: 12%;
-
-		.logo {
-			font-size: 20px;
-			font-weight: bold;
-			color: #2cd498;
-			// color: #6439ff;
-		}
-	}
-
 	.wrapper {
 		width: 100%;
 		display: flex;
 		align-items: center;
-		justify-content: space-between;
-
-		.search {
-			display: flex;
-			align-items: center;
-			border: 0.5px solid lightgray;
-			margin-left: 10px;
-			margin-right: 10px;
-
-			input {
-				border: none;
-				outline: none;
-				background: transparent;
-				padding: 5px;
-
-				&::placeholder {
-					font-size: 12px;
-				}
-			}
-		}
+		justify-content: flex-end;
 
 		.items {
 			display: flex;
@@ -58,6 +25,7 @@
 				margin-left: 10px;
 				margin-right: 10px;
 				position: relative;
+				cursor: pointer;
 
 				.icon {
 					font-size: 20px;
@@ -67,6 +35,16 @@
 					width: 30px;
 					height: 30px;
 					border-radius: 50%;
+				}
+
+				.avatar-textIcon {
+					background-color: lightgreen;
+					font-size: larger;
+					text-align: center;
+					color: #2b572d;
+					font-weight: bold;
+					line-height: 30px;
+					text-transform: uppercase;
 				}
 
 				.counter {
@@ -86,5 +64,17 @@
 				}
 			}
 		}
+	}
+}
+
+.header-pencil{
+	width: 30px;
+    height: 30px;
+    text-align: center;
+    line-height: 30px;
+    border-radius: 50%;
+	
+	&:hover {
+		background-color: #ade3bf;
 	}
 }
