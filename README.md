@@ -34,7 +34,7 @@ It is a software where an organization can manage their product stock, customers
   
 </div>
 
-<h2 align="center"> How to Contribute? </h2>
+<h2>📝 How to Contribute? </h2>
 
 <p align="center" width="100%">
     <img width="88%" src="" alter="Landing Page">
