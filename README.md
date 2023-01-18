@@ -15,10 +15,10 @@ It is a software where an organization can manage their product stock, customers
 
 <h2> 💡 Features </h2>
 
-- Multiorganization system
-- Strong authentication
-- Shows statistics for business requirements  
-- Plesant UI & Mobile responsive
+- *Multiorganization system*
+- *Strong authentication*
+- *Shows statistics for business requirements* 
+- *Plesant UI & Mobile responsive*
 
 <h2> 🌐 Tech Stack </h2>
 
