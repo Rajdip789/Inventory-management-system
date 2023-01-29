@@ -19,7 +19,7 @@ app.use(cors(corsOption));
 app.use(express.static('public'));
 
 app.use('/', require('./routes/user.routes.js'));
-//app.use('/', require('./routes/dashboard.routes.js'));
+app.use('/', require('./routes/dashboard.routes.js'));
 app.use('/', require('./routes/products.routes.js'));
 app.use('/', require('./routes/customers.routes.js'));
 app.use('/', require('./routes/suppliers.routes.js'));

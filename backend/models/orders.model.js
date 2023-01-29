@@ -26,7 +26,7 @@ class Order {
 					tso = `ORDER BY ${req.body.sort_column} ${req.body.sort_order}` 
 				}
 
-				let q = "SELECT o.*, c.name as customer_name FROM orders o LEFT JOIN customers c ON o.customer_id=c.customer_id " + tsa + tso + " LIMIT ?, 10"
+				let q = "SELECT o.*, c.name as customer_name FROM orders o INNER JOIN customers c ON o.customer_id=c.customer_id " + tsa + tso + " LIMIT ?, 10"
 				db.query(q, [req.body.start_value], (err, result) => {
 					if (err) {
 						return reject(err);

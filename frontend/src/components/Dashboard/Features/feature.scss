@@ -13,48 +13,51 @@
 .featuredItem {
     flex: 1;
     margin: 0px 20px;
-    padding: 30px;
+    padding: 10px 20px;
     border-radius: 10px;
-    cursor: pointer;
     -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
     box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
     background-color: white;
 
+    .featuredTitle {
+        font-size: 20px;
+        color: #03c885;
+    }
+    
+    .featuredMoneyContainer {
+        margin: 20px 0px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+
+        .featuredMoney {
+            font-size: 30px;
+            font-weight: 500;
+
+            .featuredMoneyRate {
+                display: flex;
+                align-items: center;
+                margin-left: 20px;
+            }
+        }
+
+        .text-hover-primary{
+            &:hover{
+                color:rgb(73, 114, 167)
+            }
+        }
+    }
+
+    .featuredSub {
+        font-size: 15px;
+        color: gray;
+        cursor: pointer;
+        border-bottom: solid 1px rgb(167, 167, 167);
+    }
+
     @media screen and (max-width: 768px)  {
         width: 65vw;
         min-height: 12rem;; 
-        margin: 1.5rem 0rem;
+        margin: 0.3rem 0rem;
     }
-}
-
-.featuredTitle {
-    font-size: 20px;
-}
-
-.featuredMoneyContainer {
-    margin: 10px 0px;
-    display: flex;
-    align-items: center;
-}
-
-.featuredMoney {
-    font-size: 30px;
-    font-weight: 600;
-}
-
-.featuredMoneyRate {
-    display: flex;
-    align-items: center;
-    margin-left: 20px;
-}
-
-.featuredIcon {
-    font-size: 14px;
-    margin-left: 5px;
-    color: green;
-}
-
-.featuredSub {
-    font-size: 15px;
-    color: gray;
 }
