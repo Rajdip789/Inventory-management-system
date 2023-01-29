@@ -20,6 +20,8 @@ const verifyJwt = (req, res, next) => {
 }
 
 
-//router.post('/get_customers', verifyJwt, customer.getCustomers)
+router.post('/get_report_stats', verifyJwt, dashboard.getReportStats)
+router.post('/get_product_stats', verifyJwt, dashboard.getProductStats)
+router.post('/get_graph_stats', verifyJwt, dashboard.getGraphStats)
 
 module.exports = router

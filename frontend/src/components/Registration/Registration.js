@@ -1,15 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import './Login.scss';
+import './Registration.scss';
 import { setCookie, getCookie } from '../../cookie';
 
 import swal from 'sweetalert';
 import CryptoJS from 'crypto-js';
 import { Link } from 'react-router-dom';
-import { EmailOutlined, SecurityOutlined, Google } from "@mui/icons-material";
+import { Person2Outlined, EmailOutlined, HomeOutlined, SecurityOutlined, Check, CheckCircleOutlineRounded } from "@mui/icons-material";
 
-function Login() {
+
+function Registration() {
+	const [name, setName] = useState('')
 	const [email, setEmail] = useState('');
+	const [address, setAddress] = useState('')
 	const [password, setPassword] = useState('');
+	const [confirmPassword, setConfirmPassword] = useState('')
 	const [submitButtonState, setSubmitButtonState] = useState(false);
 
 	useEffect(() => {
@@ -38,7 +42,7 @@ function Login() {
 	}, [])
 
 
-	const login = async () => {
+	const registration = async () => {
 		if (email === "") {
 			swal("Oops!", "Email can't be empty", "error")
 			return;
@@ -60,7 +64,7 @@ function Login() {
 		
 		setSubmitButtonState(true)
 
-		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/login`, {
+		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/registration`, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
@@ -74,7 +78,7 @@ function Login() {
 		console.log(body)
 
 		if (body.operation === 'success') {
-			console.log('Login successfull')
+			console.log('Registration successfull')
 			setCookie('accessToken', body.info.accessToken, process.env.REACT_APP_JWT_EXPIRY)
 			window.location.href = '/dashboard'
 		} else {
@@ -83,23 +87,39 @@ function Login() {
 	}
 
 	return (
-		<div className='login'>
+		<div className='registration'>
 			<img className="wave" src="./images/wave.png" />
 			<div className="container">
 				<div className="img">
 					<img src="./images/bg.svg" />
 				</div>
 
-				<div className="login-content">
+				<div className="registration-content">
 					<div className='myform'>
 						<img src="./images/avatar.svg" />
 						<h2 className="title">Welcome</h2>
 						<div className="input-div one">
 							<div className="i">
+								<Person2Outlined/>
+							</div>
+							<div className="div">
+								<input type="text" placeholder='Full Name' value={name} onChange={e => setName(e.target.value.trim())} />
+							</div>
+						</div>
+						<div className="input-div pass">
+							<div className="i">
+								<HomeOutlined/>
+							</div>
+							<div className="div">
+								<input type="text" placeholder='Address' value={address} onChange={e => setAddress(e.target.value.trim())} />
+							</div>
+						</div>
+						<div className="input-div pass">
+							<div className="i">
 								<EmailOutlined/>
 							</div>
 							<div className="div">
-								<input type="email" placeholder='Email Id' name="email" value={email} onChange={e => setEmail(e.target.value.trim())} />
+								<input type="text" placeholder='Email Id' value={email} onChange={e => setEmail(e.target.value.trim())} />
 							</div>
 						</div>
 						<div className="input-div pass">
@@ -107,26 +127,22 @@ function Login() {
 								<SecurityOutlined/>
 							</div>
 							<div className="div">
-								<input type="password" placeholder='Password' name="Password" value={password} onChange={e => setPassword(e.target.value.trim())} />
+								<input type="password" placeholder='Password' value={password} onChange={e => setPassword(e.target.value.trim())} />
 							</div>
 						</div>
-						<div className="d-flex justify-content-between">
-							<Link to="/registration">Don't have an Account?</Link>
-							<Link to="/forgetpassword">Forgot Password?</Link>
+						<div className="input-div pass">
+							<div className="i">
+								<CheckCircleOutlineRounded/>
+							</div>
+							<div className="div">
+								<input type="password" placeholder='Confirm Password' value={confirmPassword} onChange={e => setConfirmPassword(e.target.value.trim())} />
+							</div>
 						</div>
-						<button className="btn" disabled={submitButtonState} onClick={() => { login() }}>
+							<Link to="/login">Already have an Account?</Link>
+						<button className="btn" disabled={submitButtonState} onClick={() => { registration() }}>
 							{
 								!submitButtonState ?
-									<span>Login</span> :
-									<span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Please wait<div className="loader"></div></span>
-							}
-						</button>	
-						<button className="btn google" disabled={submitButtonState} onClick={() => { login() }}>
-							{
-								!submitButtonState ?
-									<span className='d-flex align-itmes-center justify-content-center gap-2'>
-										<Google style={{ marginTop : "2px" }}/><>Login with google</>
-									</span> :
+									<span>Create Account</span> :
 									<span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Please wait<div className="loader"></div></span>
 							}
 						</button>
@@ -137,4 +153,4 @@ function Login() {
 	);
 }
 
-export default Login
+export default Registration

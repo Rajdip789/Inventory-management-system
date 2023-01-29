@@ -1,17 +1,21 @@
 TODO LIST:
      
 1. Dashboard related changes
-	i) top four small cards:
+	i) top four small cards: (report stat api)
 		User/customer/supplier count
 		Current month all orders grand total
 		Current month all expenses grand total
 		Current month revenue=orders grand total sum - expenses grand total sum
-	ii) Left rectangular card:
+
+	ii) Left rectangular card: (product stats api)
 		Total number of products
-		Products with low stocks
-		Product percentage according to gender in pie chart / donut chart
-	iii) Top five / ten trending items of selected month with images
-	iv) Line chart / curve chart of order total/ expenses total / revenue for selected monthly duration 
+		Products with low stocks (5 products): Name only
+		Product percentages according to gender in pie chart / donut chart
+	iii) Right rectangular card: 
+		Top five / ten trending items of selected month with images
+
+	iv) Line chart / curve chart of order total/ expenses total / revenue for selected monthly duration (graph stat api)
+	
 	v) Total three api required for dashboard related information
 __________________________________
 

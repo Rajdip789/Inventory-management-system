@@ -1,4 +1,4 @@
-.login {
+.registration {
 	* {
 		padding: 0;
 		margin: 0;
@@ -33,7 +33,7 @@
 		align-items: center;
 	}
 
-	.login-content {
+	.registration-content {
 		display: flex;
 		justify-content: flex-start;
 		align-items: center;
@@ -61,7 +61,7 @@
 		width: 360px;
 	}
 
-	.login-content .input-div {
+	.registration-content .input-div {
 		position: relative;
 		display: grid;
 		grid-template-columns: 7% 93%;
@@ -70,7 +70,7 @@
 		border-bottom: 2px solid #d9d9d9;
 	}
 
-	.login-content .input-div.one {
+	.registration-content .input-div.one {
 		margin-top: 0;
 	}
 
@@ -188,18 +188,6 @@
 		transition: .5s;
 	}
 
-	.google {
-		background-image: linear-gradient(to right, white, white, white);
-		color: #32be8f;
-		border: 2px solid #38d39f;
-		transition: all ease-in-out 0.3s;
-
-		&:hover {
-			color: white;
-			background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
-		}
-	}
-
 	.btn:disabled {
 		opacity: 0.6;
 	}
@@ -220,7 +208,7 @@
 			width: 290px;
 		}
 
-		.login-content h2 {
+		.registration-content h2 {
 			font-size: 2.4rem;
 			margin: 8px 0;
 		}
@@ -243,7 +231,7 @@
 			display: none;
 		}
 
-		.login-content {
+		.registration-content {
 			justify-content: center;
 		}
 	}
