@@ -73,8 +73,6 @@
 		}
 	}
 
-
-
 	.dashboard,
 	.employees,
 	.products,
@@ -89,6 +87,10 @@
 		.featuredItem,
 		.chart {
 			background-color: #21242a;
+
+			.link {
+				color: white;
+			}
 		}
 
 		.btn {
@@ -105,6 +107,23 @@
 			.mytable {
 				color: #fafafa;
 			}
+
+			.search__text {
+				color: white;
+				background-color: #23272f;
+				border-bottom: 1px solid rgb(132,132,132);
+
+				&:focus {
+					border-bottom-width: 2px;
+				}
+			}
+
+			.my__icon {
+				background-color: #737473;
+				&:hover {
+					background-color: darkgray;
+				}
+			}
 		}
 
 		.bottom {
@@ -118,6 +137,12 @@
 			textarea {
 				background-color: transparent;
 				color: #fafafa;
+			}
+		}
+
+		.second_panel {
+			.left, .right {
+				background-color: #21242a;
 			}
 		}
 	}

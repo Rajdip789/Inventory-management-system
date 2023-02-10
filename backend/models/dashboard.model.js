@@ -1,7 +1,5 @@
 const db = require('../db/conn.js');
 const jwt = require('jsonwebtoken');
-const uniqid = require("uniqid")
-
 
 class Dashboard {
 	constructor() {
@@ -84,7 +82,7 @@ class Dashboard {
 				})
 
 				let p2 = new Promise((rs,rj)=>{
-					let q = 'SELECT name FROM products ORDER BY product_stock LIMIT 5'
+					let q = 'SELECT name, product_stock FROM products ORDER BY product_stock LIMIT 5'
 					db.query(q, (err, result) => {
 						if (err) {
 							rj(err);
@@ -108,6 +106,10 @@ class Dashboard {
 					db.query(q, (err, result) => {
 						if (err) {
 							rj(err);
+						}
+						
+						if(result.length == 0) {
+							return rs([]);
 						}
 
 						let arr = {}

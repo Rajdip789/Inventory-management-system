@@ -1,7 +1,6 @@
 const db = require('../db/conn.js');
 const jwt = require('jsonwebtoken');
 const uniqid = require("uniqid")
-const mysql = require('mysql')
 
 class Expense {
 	constructor() {

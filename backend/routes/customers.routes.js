@@ -1,24 +1,9 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
+const verifyJwt = require("../middlewares/verifyJwt.js");
 const Customer = require('../models/customers.model.js');
 
 const customer = new Customer();
-
-const verifyJwt = (req, res, next) => {
-	const token = req.headers.access_token;
-	jwt.verify(token, process.env.JWT_SEC, (err, payload) => {
-		if(err){
-			console.log(token)
-			console.log("jwt token failed");
-			return res.status(403).send({operation : "error", message : 'Token expired or failed'});
-		}
-
-		// console.log("token verified")
-		next();
-	})
-}
-
 
 router.post('/get_customers', verifyJwt, customer.getCustomers)
 router.post('/add_customer', verifyJwt, customer.addCustomer)

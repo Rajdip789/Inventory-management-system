@@ -10,11 +10,11 @@ TODO LIST:
 	ii) Left rectangular card: (product stats api)
 		Total number of products
 		Products with low stocks (5 products): Name only
-		Product percentages according to gender in pie chart / donut chart
+		Product percentages according to gender in donut chart
 	iii) Right rectangular card: 
-		Top five / ten trending items of selected month with images
+		Top five trending items of selected month with images
 
-	iv) Line chart / curve chart of order total/ expenses total / revenue for selected monthly duration (graph stat api)
+	iv) Curve chart of order total/ expenses total / revenue for selected monthly duration (graph stat api)
 	
 	v) Total three api required for dashboard related information
 __________________________________
