@@ -30,15 +30,27 @@
         align-items: center;
         justify-content: space-between;
 
+        .link {
+            color: black;
+            text-decoration: none;
+        }
+
+        .cardIcon {
+            border-radius: 5px;
+            color: #540106;
+            width: 15px;
+            height: 15px;
+        }
+
         .featuredMoney {
             font-size: 30px;
             font-weight: 500;
+        }
 
-            .featuredMoneyRate {
-                display: flex;
-                align-items: center;
-                margin-left: 20px;
-            }
+        .featuredMoneyRate {
+            display: flex;
+            align-items: center;
+            margin-left: 20px;
         }
 
         .text-hover-primary{
@@ -58,6 +70,6 @@
     @media screen and (max-width: 768px)  {
         width: 65vw;
         min-height: 12rem;; 
-        margin: 0.3rem 0rem;
+        margin: 0.8rem 0rem;
     }
 }

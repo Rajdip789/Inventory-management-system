@@ -1,14 +1,17 @@
 .chart {
-    margin: 20px;
-    padding: 20px;
-    // -webkit-box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    // box-shadow: 0px 0px 15px -10px rgba(0, 0, 0, 0.75);
-    -webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
-		box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
-    background-color: white;
-  }
-  .chartTitle {
-    margin-bottom: 20px;
-    font-size: larger;
-    font-weight:bold;
-  }
+	margin: 1rem;
+	padding: 1.2rem 2rem;
+	border-radius: 1rem;
+	background-color: #ffffff;
+	box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+
+	@media screen and (max-width: 480px)  {
+		width: 90%;
+	}
+}
+
+.chartTitle {
+	margin-bottom: 20px;
+	font-size: larger;
+	font-weight: bold;
+}

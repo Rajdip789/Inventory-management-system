@@ -3,11 +3,18 @@ import { ArrowDownward, ArrowUpward, PersonOutlined, ShoppingCartOutlined, PaidO
 import { Link } from 'react-router-dom';
 
 export default function Feature({reportStats}) {
-	let porder = ((reportStats[1].current_month - reportStats[1].previous_month) * 100) / reportStats[1].previous_month
-	let pexpense = ((reportStats[2].current_month - reportStats[2].previous_month) * 100) / reportStats[2].previous_month
-    let curr_rev = (reportStats[1].current_month - reportStats[2].current_month)
-    let pre_rev = (reportStats[1].previous_month - reportStats[2].previous_month)
-	let prevenue = ((curr_rev - pre_rev) * 100) / pre_rev;
+	let o1, o2, e1, e2;
+	o1 = (reportStats[1].current_month == null) ? 0 : reportStats[1].current_month
+	o2 = (reportStats[1].previous_month == null) ? 0 : reportStats[1].previous_month
+	e1 = (reportStats[2].current_month == null) ? 0 : reportStats[2].current_month
+	e2 = (reportStats[2].previous_month == null) ? 0 : reportStats[2].previous_month
+
+
+	let porder = o2 === 0 ? 0 : ((o1 - o2) * 100) / o2
+	let pexpense = e2 === 0 ? 0 : ((e1 - e2) * 100) / e2
+    let curr_rev = (o1 - e1)
+    let pre_rev = (o2 - e2)
+	let prevenue = pre_rev === 0 ? 0 : ((curr_rev - pre_rev) * 100) / pre_rev;
 
 	return (
 		<div className="featured">
@@ -15,18 +22,18 @@ export default function Feature({reportStats}) {
 				<span className="featuredTitle">Users</span>
 				<div className="featuredMoneyContainer flex-column flex-start" style={{ margin: "0px 0px" }}>
 					<div className="d-flex gap-2">
-						<div className="d-flex align-items-center"><PersonOutlined style={{backgroundColor: "rgb(255,0,0,0.3)", borderRadius: "5px", color: "#540106", width:"15px", height:"15px"}} /></div>
-						<Link to='/employees' className="fw-bold text-dark text-decoration-none "><span className="text-hover-primary">Employees:</span></Link>
+						<div className="d-flex align-items-center"><PersonOutlined className="cardIcon" style={{backgroundColor: "rgb(255,0,0,0.3)"}} /></div>
+						<Link to='/employees' className="link"><span className="text-hover-primary">Employees:</span></Link>
 						<span>{reportStats[0].employee_count}</span>
 					</div>
-					<div className="d-flex gap-1 my-1">
-						<div className="d-flex align-items-center"><PersonOutlined style={{backgroundColor: "rgb(0,255,0,0.3)", borderRadius: "5px", color: "#540106", width:"15px", height:"15px"}} /></div>
-						<Link to='/customers' className="fw-bold text-dark text-decoration-none "><span className="text-hover-primary">Customers:</span></Link>
+					<div className="d-flex gap-2 my-1">
+						<div className="d-flex align-items-center"><PersonOutlined className="cardIcon" style={{backgroundColor: "rgb(0,255,0,0.3)"}} /></div>
+						<Link to='/customers' className="link"><span className="text-hover-primary">Customers:</span></Link>
 						<span>{reportStats[0].customer_count}</span>
 					</div>
 					<div className="d-flex gap-2">
-						<div className="d-flex align-items-center"><PersonOutlined style={{backgroundColor: "rgb(0,0,255,0.3)", borderRadius: "5px", color: "#540106", width:"15px", height:"15px"}} /></div>
-						<Link to='/suppliers' className="fw-bold text-dark text-decoration-none "><span className="text-hover-primary">Suppliers:</span></Link>
+						<div className="d-flex align-items-center"><PersonOutlined className="cardIcon" style={{backgroundColor: "rgb(0,0,255,0.3)"}} /></div>
+						<Link to='/suppliers' className="link"><span className="text-hover-primary">Suppliers:</span></Link>
 						<span>{reportStats[0].supplier_count}</span>
 					</div>
 				</div>
@@ -39,7 +46,7 @@ export default function Feature({reportStats}) {
 			<div className="featuredItem">
 				<span className="featuredTitle">Orders</span>
 				<div className="featuredMoneyContainer">
-					<span className="featuredMoney">₹{reportStats[1].current_month}</span>
+					<span className="featuredMoney">₹{o1}</span>
 					<div className="d-flex align-items-center" style={{ color: porder >= 0 ? "green" : "red" }}>					
 						<span className="featuredMoneyRate">{Math.round(porder * 100)/100}%</span>
 						{porder >= 0 ? <ArrowUpward/> : <ArrowDownward/>}
@@ -53,7 +60,7 @@ export default function Feature({reportStats}) {
 			<div className="featuredItem">
 				<span className="featuredTitle">Expense</span>
 				<div className="featuredMoneyContainer">
-					<span className="featuredMoney">₹{reportStats[2].current_month}</span>
+					<span className="featuredMoney">₹{e1}</span>
 					<div className="d-flex align-items-center" style={{ color: pexpense >= 0 ? "green" : "red" }}>
 						<span className="featuredMoneyRate">{Math.round(pexpense * 100)/100}%</span>
 						{pexpense >= 0 ? <ArrowUpward/> : <ArrowDownward/>}
@@ -67,7 +74,7 @@ export default function Feature({reportStats}) {
 			<div className="featuredItem">
 				<span className="featuredTitle">Revenue</span>
 				<div className="featuredMoneyContainer">
-					<span className="featuredMoney">₹{reportStats[1].current_month - reportStats[2].current_month}</span>
+					<span className="featuredMoney">₹{o1 - e1}</span>
 					<div className="d-flex align-items-center" style={{ color: "red" }}>
 						<span className="featuredMoneyRate">{Math.round(prevenue * 100)/100}%</span>
 						<ArrowDownward />

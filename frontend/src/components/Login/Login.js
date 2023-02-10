@@ -93,7 +93,7 @@ function Login() {
 				<div className="login-content">
 					<div className='myform'>
 						<img src="./images/avatar.svg" />
-						<h2 className="title">Welcome</h2>
+						<h3 className="title">Welcome Back!</h3>
 						<div className="input-div one">
 							<div className="i">
 								<EmailOutlined/>

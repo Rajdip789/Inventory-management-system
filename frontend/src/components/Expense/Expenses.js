@@ -286,17 +286,18 @@ function Expenses() {
 												<label className='fst-italic fw-bold mb-2'>Item Details:</label>
 												<div className='p-2 border rounded'>
 													<div className='mb-2 row gx-0'>
-														<div className='fw-bold text-secondary col-3 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Image</div>
-														<div className='fw-bold text-secondary col-5 d-flex align-items-center text-uppercase justify-content-start' style={{ fontSize : "smaller" }}>Product Name</div>
+														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Image</div>
+														<div className='fw-bold text-secondary col-4 d-flex align-items-center text-uppercase justify-content-start' style={{ fontSize : "smaller" }}>Product Name</div>
 														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Quantity</div>
 														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Rate</div>
+														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Total</div>
 													</div>
 													{
 														productDetails.length > 0 && JSON.parse(viewExpenseDetails.items).map((viewItem, ind) => {
 															let img = productDetails.find(x=>x.product_id === viewItem.product_id).image
 															return (
 																<div key={ind} className='py-2 row gx-0' style={{ borderBottom : "1px dashed lightgray" }}>
-																	<div className='col-3 d-flex align-items-center justify-content-center'>
+																	<div className='col-2 d-flex align-items-center justify-content-center'>
 																		<OverlayTrigger
 																			trigger={['hover', 'focus']}
 																			placement="left"
@@ -315,9 +316,10 @@ function Expenses() {
 																			<img style={{"width" : "60px", "height" :  "60px", "borderRadius" : "5px", "objectFit" : "cover", cursor: "pointer" }} src={img === null? "https://lh3.googleusercontent.com/SMKEdK_g-LuC3ero8vP9d4lPJBKyzc4t91-GYLQ1vEkhv87KyaxFmWFeEb6ZcyRNet0" : `${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${img}`} alt="product"/>
 																		</OverlayTrigger>
 																	</div>
-																	<div className='col-5 d-flex align-items-center justify-content-start'>{viewItem.product_name}</div>
+																	<div className='col-4 d-flex align-items-center justify-content-start'>{viewItem.product_name}</div>
 																	<div className='col-2 d-flex align-items-center justify-content-center'>{viewItem.quantity}</div>
 																	<div className='col-2 d-flex align-items-center justify-content-center'>{viewItem.rate}</div>
+																	<div className='col-2 d-flex align-items-center justify-content-center'>{viewItem.rate * viewItem.quantity}</div>
 																</div>
 															)
 														})

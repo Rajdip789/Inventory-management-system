@@ -5,7 +5,7 @@ import { setCookie, getCookie } from '../../cookie';
 import swal from 'sweetalert';
 import CryptoJS from 'crypto-js';
 import { Link } from 'react-router-dom';
-import { Person2Outlined, EmailOutlined, HomeOutlined, SecurityOutlined, Check, CheckCircleOutlineRounded } from "@mui/icons-material";
+import { Person2Outlined, EmailOutlined, HomeOutlined, SecurityOutlined, Check, CheckCircleOutlineRounded, Google } from "@mui/icons-material";
 
 
 function Registration() {
@@ -97,7 +97,6 @@ function Registration() {
 				<div className="registration-content">
 					<div className='myform'>
 						<img src="./images/avatar.svg" />
-						<h2 className="title">Welcome</h2>
 						<div className="input-div one">
 							<div className="i">
 								<Person2Outlined/>
@@ -143,6 +142,15 @@ function Registration() {
 							{
 								!submitButtonState ?
 									<span>Create Account</span> :
+									<span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Please wait<div className="loader"></div></span>
+							}
+						</button>
+						<button className="btn google" disabled={submitButtonState} onClick={() => { registration() }}>
+							{
+								!submitButtonState ?
+									<span className='d-flex align-itmes-center justify-content-center gap-2'>
+										<Google style={{ marginTop : "2px" }}/><>Sign Up with google</>
+									</span> :
 									<span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Please wait<div className="loader"></div></span>
 							}
 						</button>
