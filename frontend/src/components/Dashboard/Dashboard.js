@@ -3,6 +3,8 @@ import './Dashboard.scss'
 import Feature from './Features/Feature'
 import Chart from './chart/Chart'
 import { getCookie } from '../../cookie'
+import Loader from '../PageStates/Loader'
+import Error from '../PageStates/Error'
 
 
 function Dashboard() {
@@ -100,6 +102,7 @@ function Dashboard() {
 			}
 		})
 
+		//await setTimeout()
 		let body = await result.json()
 		setGraphStats(body.info)
 	}
@@ -141,13 +144,7 @@ function Dashboard() {
 			<div style={{ overflow: "scroll", height: "100%" }} >
 				{
 					pageState === 1 ?
-						<div className="card">
-							<div className="container">
-								<div style={{ height: '20rem', backgroundColor: '#cef0cb', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2rem', margin: '1rem' }}>
-									<span className="loader"></span>
-								</div>
-							</div>
-						</div>
+						<Loader />
 						: pageState === 2 ?
 							<>
 								<Feature reportStats={reportStats} />
@@ -183,9 +180,9 @@ function Dashboard() {
 													</svg>
 
 													<div style={{ fontSize: "smaller", position: "absolute" }}>
-														<div><div className='me-1' style={{ backgroundColor: "#0d6efd", width: "10px", height: "10px", display: "inline-block", borderRadius: "3px" }}></div><span className='me-1'>Male:</span> <span>{productGenderP[1].count}</span></div>
-														<div><div className='me-1' style={{ backgroundColor: "#e91e63", width: "10px", height: "10px", display: "inline-block", borderRadius: "3px" }}></div><span className='me-1'>Female:</span> <span>{productGenderP[0].count}</span></div>
-														<div><div className='me-1' style={{ backgroundColor: "#ff9800", width: "10px", height: "10px", display: "inline-block", borderRadius: "3px" }}></div><span className='me-1'>Others:</span> <span>{productGenderP[2].count}</span></div>
+														<div><div className='me-1' style={{ backgroundColor: "#516fc9", width: "10px", height: "10px", display: "inline-block", borderRadius: "3px" }}></div><span className='me-1'>Male:</span> <span>{productGenderP[1].count}</span></div>
+														<div><div className='me-1' style={{ backgroundColor: "#f07fce", width: "10px", height: "10px", display: "inline-block", borderRadius: "3px" }}></div><span className='me-1'>Female:</span> <span>{productGenderP[0].count}</span></div>
+														<div><div className='me-1' style={{ backgroundColor: "#fcbc53", width: "10px", height: "10px", display: "inline-block", borderRadius: "3px" }}></div><span className='me-1'>Others:</span> <span>{productGenderP[2].count}</span></div>
 													</div>
 												</div>
 											}
@@ -194,18 +191,18 @@ function Dashboard() {
 									<div className='right'>
 										<div className='title'>TOP SELLING ITEMS</div>
 										<hr className='my-1' style={{ color: "darkgrey" }} />
-										<div style={{ overflowX : "auto" }}>
+										<div style={{ overflowX: "auto" }}>
 											<div className='d-flex gap-1'>
 												{
 													productStats[3].map((x, i) => {
 														return (
-															<div key={i} style={{height:"10rem", minWidth:"10rem", border:"1px solid darkgrey", padding:"0.5rem", display:"flex", flexDirection:"column", alignItems:"center", justifyContent:"center", gap:"3px"}}>
+															<div key={i} className="card-items">
 																{
 																	x.image === null ?
-																		<div className='d-flex align-items-center fs-5 text-center' style={{ height:"80%" }}>No image available</div> :
-																		<img style={{ height:"80%", borderRadius: "5px" }} src={`${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${x.image}`} alt="product" />
+																		<div className='d-flex align-items-center fs-5 text-center' style={{ height: "80%" }}>No image available</div> :
+																		<img style={{ height: "80%", borderRadius: "5px" }} src={`${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${x.image}`} alt="product" />
 																}
-																<div className='text-center fw-bold' style={{fontSize: "small"}} title={x.name}>{x.name.length>20?x.name.slice(0,20)+"...":x.name}</div>
+																<div className='text-center fw-bold' style={{ fontSize: "small" }} title={x.name}>{x.name.length > 20 ? x.name.slice(0, 20) + "..." : x.name}</div>
 															</div>
 														)
 													})
@@ -214,18 +211,10 @@ function Dashboard() {
 										</div>
 									</div>
 								</div>
-								<Chart />
+								<Chart graphStats={graphStats} />
 							</>
 							:
-							<div className="card">
-								<div className="container">
-									<div style={{ display: "flex", height: "10rem", backgroundColor: "#e6bfbf", border: "2px red dotted", borderRadius: "2rem", alignItems: "center", justifyContent: "center", margin: "1rem" }}>
-										<div style={{ fontSize: 'x-large', fontWeight: 'bold', color: 'white', fontFamily: 'cursive' }}>
-											Something went wrong!
-										</div>
-									</div>
-								</div>
-							</div>
+							<Error />
 				}
 			</div>
 		</div>

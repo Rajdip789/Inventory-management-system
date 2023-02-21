@@ -2,7 +2,6 @@ const db = require('../db/conn.js');
 const jwt = require('jsonwebtoken');
 const uniqid = require("uniqid")
 
-
 class Customer {
 	constructor() {
 		//console.log('Customer object initialized');
@@ -87,13 +86,13 @@ class Customer {
 					}
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -113,7 +112,7 @@ class Customer {
 						return reject(err1);
 					}
 
-					if ((result1.length > 0) && (result1[0].customer_id!=req.body.customer_id)) {
+					if ((result1.length > 0) && (result1[0].customer_id != req.body.customer_id)) {
 						resolve({ operation: "error", message: 'Duplicate customer email' });
 					}
 					else {
@@ -127,76 +126,75 @@ class Customer {
 					}
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
 		}
 	}
 
-
 	getCustomersSearch = (req, res) => {
-			try {
-				let d = jwt.decode(req.headers.access_token, { complete: true });
-				let email = d.payload.email;
-				let role = d.payload.role;
+		try {
+			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let email = d.payload.email;
+			let role = d.payload.role;
 
-				new Promise((resolve, reject) => {
-					let q = `SELECT * FROM customers WHERE name LIKE '${req.body.search_value}%' LIMIT 10`
-					db.query(q, (err, result) => {
-						if (err) {
-							return reject(err);
-						}
-						// console.log(result)
-						resolve({ operation: "success", message: '10 customers got', info: { customers: result } });
-					})
+			new Promise((resolve, reject) => {
+				let q = `SELECT * FROM customers WHERE name LIKE '${req.body.search_value}%' LIMIT 10`
+				db.query(q, (err, result) => {
+					if (err) {
+						return reject(err);
+					}
+					// console.log(result)
+					resolve({ operation: "success", message: '10 customers got', info: { customers: result } });
 				})
-					.then((value) => {
-						res.send(value);
-					})
-					.catch((err) => {
-						console.log(err);
-						res.send({ operation: "error", message: 'Something went wrong' });
-					})
-			} catch (error) {
-				console.log(error);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			}
-		}
-
-		deleteCustomer = (req, res) => {
-			try {
-				let d = jwt.decode(req.headers.access_token, { complete: true });
-				let email = d.payload.email;
-				let role = d.payload.role;
-
-				new Promise((resolve, reject) => {
-					let q = "DELETE FROM `customers` WHERE customer_id = ?"
-					db.query(q, [req.body.customer_id], (err, result) => {
-						if (err) {
-							return reject(err);
-						}
-						resolve({ operation: "success", message: 'customer deleted successfully' });
-					})
+			})
+				.then((value) => {
+					res.send(value);
 				})
-					.then((value) => {
-						res.send(value);
-					})
-					.catch((err) => {
-						console.log(err);
-						res.send({ operation: "error", message: 'Something went wrong' });
-					})
-			} catch (error) {
-				console.log(error);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			}
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
+		} catch (error) {
+			console.log(error);
+			res.send({ operation: "error", message: 'Something went wrong' });
 		}
 	}
+
+	deleteCustomer = (req, res) => {
+		try {
+			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let email = d.payload.email;
+			let role = d.payload.role;
+
+			new Promise((resolve, reject) => {
+				let q = "DELETE FROM `customers` WHERE customer_id = ?"
+				db.query(q, [req.body.customer_id], (err, result) => {
+					if (err) {
+						return reject(err);
+					}
+					resolve({ operation: "success", message: 'customer deleted successfully' });
+				})
+			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
+		} catch (error) {
+			console.log(error);
+			res.send({ operation: "error", message: 'Something went wrong' });
+		}
+	}
+}
 
 module.exports = Customer;

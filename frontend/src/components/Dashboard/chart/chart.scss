@@ -4,14 +4,21 @@
 	border-radius: 1rem;
 	background-color: #ffffff;
 	box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
+	overflow-x: auto;
 
 	@media screen and (max-width: 480px)  {
-		width: 90%;
+		margin: 2rem;
 	}
-}
 
-.chartTitle {
-	margin-bottom: 20px;
-	font-size: larger;
-	font-weight: bold;
+	.chartTitle {
+		margin-bottom: 20px;
+		color: #03c885;
+		font-weight: bold;
+		font-size: 17px;
+	}
+
+	.chartContent {
+		min-width: 730px;
+		min-height: 100%;
+	}
 }

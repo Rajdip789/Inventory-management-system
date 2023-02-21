@@ -89,7 +89,7 @@ function Registration() {
 	return (
 		<div className='registration'>
 			<img className="wave" src="./images/wave.png" />
-			<div className="container">
+			<div className="registration-container">
 				<div className="img">
 					<img src="./images/bg.svg" />
 				</div>

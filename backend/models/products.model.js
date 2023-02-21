@@ -18,15 +18,13 @@ class Product {
 			new Promise((resolve, reject) => {
 
 				let tsa = ""
-				if(req.body.search_value!="")
-				{
-					tsa = `WHERE name LIKE "%${req.body.search_value}%" OR description LIKE "%${req.body.search_value}%"` 
+				if (req.body.search_value != "") {
+					tsa = `WHERE name LIKE "%${req.body.search_value}%" OR description LIKE "%${req.body.search_value}%"`
 				}
 
 				let tso = ""
-				if((req.body.sort_column!="") && (req.body.sort_order!=""))
-				{
-					tso = `ORDER BY ${req.body.sort_column} ${req.body.sort_order}` 
+				if ((req.body.sort_column != "") && (req.body.sort_order != "")) {
+					tso = `ORDER BY ${req.body.sort_column} ${req.body.sort_order}`
 				}
 
 				let q = "SELECT * FROM `products` " + tsa + tso + " LIMIT ?, 10"
@@ -35,27 +33,27 @@ class Product {
 						return reject(err);
 					}
 
-					if(req.body.search_value!=""){
-						return resolve({ operation: "success", message: 'search products got', info: {products: result, count: result.length} });
+					if (req.body.search_value != "") {
+						return resolve({ operation: "success", message: 'search products got', info: { products: result, count: result.length } });
 					}
 
 					let q = "SELECT COUNT(*) AS val FROM `products`"
 					db.query(q, (err, result2) => {
 						if (err) {
-							return reject(err);							
+							return reject(err);
 						}
 						// console.log(result2)
-						resolve({ operation: "success", message: '10 products got', info: {products: result, count: result2[0].val} });
+						resolve({ operation: "success", message: '10 products got', info: { products: result, count: result2[0].val } });
 					})
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -75,16 +73,16 @@ class Product {
 						return reject(err);
 					}
 					// console.log(result)
-					resolve({ operation: "success", message: '10 products got', info: {products: result} });
+					resolve({ operation: "success", message: '10 products got', info: { products: result } });
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -104,16 +102,16 @@ class Product {
 						return reject(err);
 					}
 					// console.log(result)
-					resolve({ operation: "success", message: 'Success', info: {products: result} });
+					resolve({ operation: "success", message: 'Success', info: { products: result } });
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -135,13 +133,13 @@ class Product {
 					resolve({ operation: "success", message: 'Product added successfully' });
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -156,10 +154,10 @@ class Product {
 
 			new Promise((resolve, reject) => {
 				let ts = ""
-				if(req.body.f_name){
-					ts= `image="${req.body.f_name}",`
+				if (req.body.f_name) {
+					ts = `image="${req.body.f_name}",`
 				}
-				let q = "UPDATE `products` SET `name`=?,`gender`=?,`size`=?,`material`=?,`category`=?,`description`=?,`product_stock`=?,"+ts+"`selling_price`=?,`purchase_price`=? WHERE product_id=?"
+				let q = "UPDATE `products` SET `name`=?,`gender`=?,`size`=?,`material`=?,`category`=?,`description`=?,`product_stock`=?," + ts + "`selling_price`=?,`purchase_price`=? WHERE product_id=?"
 				db.query(q, [req.body.name, req.body.gender, req.body.size, req.body.material, req.body.category, req.body.description, req.body.product_stock, req.body.selling_price, req.body.purchase_price, req.body.product_id], (err, result) => {
 					if (err) {
 						return reject(err);
@@ -167,13 +165,13 @@ class Product {
 					resolve({ operation: "success", message: 'Product updated successfully' });
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -194,11 +192,11 @@ class Product {
 					}
 
 					let p
-					if(result[0].image != null) {
-						p = new Promise((res,rej) => {
-							let pathToFile = path.resolve("./")+"/public/uploads/"+result[0].image
+					if (result[0].image != null) {
+						p = new Promise((res, rej) => {
+							let pathToFile = path.resolve("./") + "/public/uploads/" + result[0].image
 							//console.log(pathToFile)
-							fs.unlink(pathToFile, function(ferr) {
+							fs.unlink(pathToFile, function (ferr) {
 								if (ferr) {
 									rej(ferr);
 								}
@@ -216,21 +214,21 @@ class Product {
 							if (err2) {
 								return reject(err2);
 							}
-							resolve({ operation: "success", message: 'product deleted successfully'});
+							resolve({ operation: "success", message: 'product deleted successfully' });
 						})
 					})
-					.catch((err3) => {
-						reject(err3)
-					})
+						.catch((err3) => {
+							reject(err3)
+						})
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -250,9 +248,9 @@ class Product {
 						return reject(err);
 					}
 
-					let pathToFile = path.resolve("./")+"/public/uploads/"+result[0].image
+					let pathToFile = path.resolve("./") + "/public/uploads/" + result[0].image
 
-					fs.unlink(pathToFile, function(err) {
+					fs.unlink(pathToFile, function (err) {
 						if (err) {
 							return reject(err);
 						}
@@ -262,18 +260,18 @@ class Product {
 							if (err) {
 								return reject(err);
 							}
-							resolve({ operation: "success", message: 'product image deleted successfully'});
+							resolve({ operation: "success", message: 'product image deleted successfully' });
 						})
 					})
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });

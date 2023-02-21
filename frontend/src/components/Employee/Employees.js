@@ -7,6 +7,8 @@ import Table from '../Table/Table'
 import moment from 'moment'
 import swal from 'sweetalert';
 import { setCookie, getCookie } from '../../cookie';
+import Loader from '../PageStates/Loader';
+import Error from '../PageStates/Error';
 
 function Employees() {
 	const [pageState, setPageState] = useState(1)
@@ -140,7 +142,6 @@ function Employees() {
 
 	useEffect(() => {
 		if (employees.length !== 0) {
-			//console.log(employees)
 			let tArray = employees.map((obj, i) => {
 
 				let tObj = {}
@@ -175,7 +176,6 @@ function Employees() {
 					</>
 				return tObj;
 			})
-			//console.log(tArray)
 			setData(tArray)
 		}
 	}, [employees])
@@ -260,13 +260,7 @@ function Employees() {
 
 				{
 					pageState === 1 ?
-						<div className="card">
-							<div className="container">
-								<div style={{ height: '20rem', backgroundColor: '#cef0cb', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2rem', margin: '1rem' }}>
-									<span className="loader"></span>
-								</div>
-							</div>
-						</div>
+						<Loader/>
 						: pageState === 2 ?
 							<div className="card">
 								<div className="container">
@@ -288,15 +282,7 @@ function Employees() {
 								</div>
 							</div>
 							:
-							<div className="card">
-								<div className="container">
-									<div style={{ display: "flex", height: "10rem", backgroundColor: "#e6bfbf", border: "2px red dotted", borderRadius: "2rem", alignItems: "center", justifyContent: "center", margin: "1rem" }}>
-										<div style={{ fontSize: 'x-large', fontWeight: 'bold', color: 'white', fontFamily: 'cursive' }}>
-											Something went wrong!
-										</div>
-									</div>
-								</div>
-							</div>
+							<Error/>
 				}
 
 				<Modal show={editModalShow} onHide={() => { handleEditModalClose() }} size="l" centered >
