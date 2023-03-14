@@ -1,36 +1,43 @@
 import React from 'react'
 import "./chart.scss"
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 
-export default function Chart() {
-
-	const data = [
-		{ name: 'Jan', "Active User": 4000 },
-		{ name: 'Fab', "Active User": 3000 },
-		{ name: 'Mar', "Active User": 2000 },
-		{ name: 'Apr', "Active User": 6000 },
-		{ name: 'May', "Active User": 5000 },
-		{ name: 'Jun', "Active User": 2000 },
-		{ name: 'Jul', "Active User": 4000 },
-		{ name: 'Aug', "Active User": 8000 },
-		{ name: 'Sep', "Active User": 2000 },
-		{ name: 'Oct', "Active User": 4000 },
-		{ name: 'Nov', "Active User": 4000 },
-		{ name: 'Dec', "Active User": 9000 },
-	];
+export default function Chart({graphStats}) {
 
 	return (
 		<div className="chart">
-			<h3 className="chartTitle">Sales Analytics</h3>
-			<ResponsiveContainer width="100%" aspect={4 / 1}>
-				<LineChart data={data}>
-					<XAxis dataKey="name" stroke='#5550bd' />
-					<Line type="monotone" dataKey="Active User" stroke='#5550bd' />
-					<Tooltip />
-					<CartesianGrid stroke='#e0dfdf' strokeDasharray="5 5" />
-				</LineChart>
-			</ResponsiveContainer>
+			<div className="chartTitle">SALES ANALYTICS</div>
+			<div className='chartContent' >
+				<ResponsiveContainer width="100%" aspect={4 / 1}>
+					<AreaChart width={730} height={250} data={graphStats}
+						margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+						<defs>
+							<linearGradient id="colorOrder" x1="0" y1="0" x2="0" y2="1">
+								<stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
+								<stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+							</linearGradient>
+							<linearGradient id="colorExpense" x1="0" y1="0" x2="0" y2="1">
+								<stop offset="5%" stopColor="#82ca9d" stopOpacity={0.8} />
+								<stop offset="95%" stopColor="#82ca9d" stopOpacity={0} />
+							</linearGradient>
+							<linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
+								<stop offset="5%" stopColor="#de7b7b" stopOpacity={0.8} />
+								<stop offset="95%" stopColor="#de7b7b" stopOpacity={0} />
+							</linearGradient>
+						</defs>
+						<XAxis dataKey="Month" />
+						<YAxis />
+						<CartesianGrid strokeDasharray="3 3" />
+						<Tooltip />
+						<Area type="monotone" dataKey="order" stroke="#8884d8" fillOpacity={1} fill="url(#colorOrder)" />
+						<Area type="monotone" dataKey="expense" stroke="#82ca9d" fillOpacity={1} fill="url(#colorExpense)" />
+						<Area type="monotone" dataKey="revenue" stroke="#de7b7b" fillOpacity={1} fill="url(#colorRevenue)" />
+					</AreaChart>
+				</ResponsiveContainer>
+			</div>
 		</div>
+
+
 	);
 }

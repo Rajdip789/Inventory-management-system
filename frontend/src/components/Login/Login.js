@@ -85,7 +85,7 @@ function Login() {
 	return (
 		<div className='login'>
 			<img className="wave" src="./images/wave.png" />
-			<div className="container">
+			<div className="login-container">
 				<div className="img">
 					<img src="./images/bg.svg" />
 				</div>

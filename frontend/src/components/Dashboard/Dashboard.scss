@@ -3,6 +3,10 @@
     background-color: #fafafa;
     height: calc(100vh - 50px);
 
+	@media screen and (max-width: 768px)  {
+        width: 100vw;
+    }
+
 	.second_panel{
 		display: flex;
 		gap: 2rem;
@@ -47,6 +51,19 @@
 				margin-bottom: 10px;
 			}
 
+			.card-items {
+				display: flex; 
+				flex-direction: column; 
+				align-items: center; 
+				justify-content: center; 
+				gap: 3px;
+				height: 10rem;
+				min-width: 10rem; 
+				border: 1px solid darkgrey; 
+				padding: 0.5rem; 
+				cursor: pointer;
+			}
+
 			@media screen and (max-width: 768px)  {
 				max-width: 90%;
 			}
@@ -57,9 +74,4 @@
 			align-items: center;
 		}
 	}
-
-    @media screen and (max-width: 768px)  {
-        width: 100vw;
-        height: 100vh;
-    }
 }

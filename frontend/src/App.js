@@ -13,7 +13,7 @@ function App() {
 				<Routes>
 					<Route path='*' element={<NotFound />}/>
 					<Route path='/unauthorized' element={<Unauthorized />}/>
-					<Route path='/' element={<Login />}/>
+					<Route path='/' element={<Registration />}/>
 					<Route path='/login' element={<Login />}/>
 					<Route path='/registration' element={<Registration />}/>
 					<Route path='/forgetpassword' element={<Forgetpassword />}/>

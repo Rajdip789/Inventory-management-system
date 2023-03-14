@@ -4,7 +4,9 @@ import './ProductAddNew.scss'
 import swal from 'sweetalert';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 
-import { setCookie, getCookie } from '../../cookie';
+import { getCookie } from '../../cookie';
+import Error from '../PageStates/Error';
+import Loader from '../PageStates/Loader';
 
 function ProductAddNew() {
 	const [pageState, setPageState] = useState(1)
@@ -169,13 +171,7 @@ function ProductAddNew() {
 
 			{
 				pageState === 1 ?
-					<div className="card">
-						<div className="container">
-							<div style={{ height: '20rem', backgroundColor: '#cef0cb', display: 'flex', alignItems: 'center', justifyContent: 'center', borderRadius: '2rem', margin: '1rem' }}>
-								<span className="loader"></span>
-							</div>
-						</div>
-					</div>
+					<Loader/>
 					: pageState === 2 ?
 						<div className="card">
 							<div className="container">
@@ -268,15 +264,7 @@ function ProductAddNew() {
 							</div>
 						</div>
 						:
-						<div className="card">
-							<div className="container">
-								<div style={{ display: "flex", height: "10rem", backgroundColor: "#e6bfbf", border: "2px red dotted", borderRadius: "2rem", alignItems: "center", justifyContent: "center", margin: "1rem" }}>
-									<div style={{ fontSize: 'x-large', fontWeight: 'bold', color: 'white', fontFamily: 'cursive' }}>
-										Something went wrong!
-									</div>
-								</div>
-							</div>
-						</div>
+						<Error/>
 			}
 		</div>
 	)
