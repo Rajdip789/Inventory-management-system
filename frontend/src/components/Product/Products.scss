@@ -3,6 +3,11 @@
 	background-color: #fafafa;
 	height: calc(100vh - 50px);
 
+	.products-scroll {
+		overflow: scroll;
+		height: 100%;
+	}
+
 	.product-header {
 		display: flex;
 		justify-content: space-between;
@@ -26,7 +31,6 @@
 	}
 
 	.container {
-		-webkit-box-shadow: 2px 4px 10px 1px rgba(0, 0, 0, 0.47);
 		box-shadow: 2px 4px 10px 1px rgba(201, 201, 201, 0.47);
 		padding: 2px 2px;
 		height: 100%;
@@ -104,6 +108,7 @@
 
 	@media screen and (max-width: 768px) {
 		height: 110vh;
+		width: 100vw;
 	}
 }
 

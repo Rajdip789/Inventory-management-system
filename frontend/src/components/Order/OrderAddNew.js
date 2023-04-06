@@ -3,7 +3,6 @@ import './OrderAddNew.scss'
 
 import Select from 'react-select'
 import swal from 'sweetalert';
-import { setCookie, getCookie } from '../../cookie';
 import Loader from '../PageStates/Loader';
 import Error from '../PageStates/Error';
 
@@ -24,62 +23,50 @@ function OrderAddNew() {
 	const [submitButtonState, setSubmitButtonState] = useState(false)
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					if (body.operation === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				if (body.operation === 'success') {
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							//console.log(JSON.parse(body.info));
+							let p = JSON.parse(body.info).find(x => x.page === 'products')
+							if (p.view && p.create) {
+								setPermission(p)
+							} else {
+								window.location.href = '/unauthorized';
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page === 'products')
-								if (p.view && p.create) {
-									setPermission(p)
-								} else {
-									window.location.href = '/unauthorized';
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 	const getProducts = async (value) => {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_products_search`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ search_value: value })
+			body: JSON.stringify({ search_value: value }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -90,10 +77,10 @@ function OrderAddNew() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_customers_search`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ search_value: value })
+			body: JSON.stringify({ search_value: value }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -127,14 +114,14 @@ function OrderAddNew() {
 		}
 
 		let flag2 = false
-		for(let i=0;i<itemArray.length;i++){
-			if(itemArray[i].quantity>itemArray[i].max_stock){
+		for (let i = 0; i < itemArray.length; i++) {
+			if (itemArray[i].quantity > itemArray[i].max_stock) {
 				swal("Oops!", `The maximum available stock of "${itemArray[i].product_name}" is ${itemArray[i].max_stock} units`, "error")
-				flag2=true
+				flag2 = true
 				break;
 			}
 		}
-		if(flag2){
+		if (flag2) {
 			return
 		}
 
@@ -159,8 +146,8 @@ function OrderAddNew() {
 		obj.customer_id = selectedCustomer.value;
 		obj.due_date = dueDate;
 
-		let t = itemArray.map(obj=>{
-			let {max_stock, ...objSpread} = obj
+		let t = itemArray.map(obj => {
+			let { max_stock, ...objSpread } = obj
 			return objSpread
 		})
 
@@ -174,9 +161,9 @@ function OrderAddNew() {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken')
 			},
-			body: JSON.stringify(obj)
+			body: JSON.stringify(obj),
+			credentials: 'include'
 		})
 		let body = await response.json()
 
@@ -208,7 +195,7 @@ function OrderAddNew() {
 
 				{
 					pageState === 1 ?
-						<Loader/>
+						<Loader />
 						: pageState === 2 ?
 							<div className="card">
 								<div className="container" style={{ display: "flex", flexDirection: "column" }}>
@@ -268,9 +255,9 @@ function OrderAddNew() {
 														</div>
 														<div style={{ minWidth: "20%", height: "100%" }}>
 															<input className='my_input' style={{ width: "90%", height: "100%", marginLeft: "10%" }} type="number" max={obj.max_stock} value={obj.quantity.toString()}
-																onChange={(e) => {																
+																onChange={(e) => {
 																	let t = itemArray.map(x => { return { ...x } })
-																	t[ind].quantity = e.target.value===""? 0 : parseFloat(e.target.value)
+																	t[ind].quantity = e.target.value === "" ? 0 : parseFloat(e.target.value)
 																	setItemArray(t)
 																}}
 															/>
@@ -279,7 +266,7 @@ function OrderAddNew() {
 															<input className='my_input' style={{ width: "90%", height: "100%", marginLeft: "10%" }} type="number" value={obj.rate.toString()}
 																onChange={(e) => {
 																	let t = itemArray.map(x => { return { ...x } })
-																	t[ind].rate = e.target.value===""? 0 : parseFloat(e.target.value)
+																	t[ind].rate = e.target.value === "" ? 0 : parseFloat(e.target.value)
 																	setItemArray(t)
 																}}
 															/>
@@ -320,7 +307,7 @@ function OrderAddNew() {
 										</div>
 										<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", margin: "0.2rem 0" }}>
 											<div style={{ marginRight: "1rem", color: "rgb(98, 102, 100)" }} ><h4>Tax (%)</h4></div>
-											<div style={{ width: "20%", marginRight: "8%" }}><input className='my_input' style={{ width: "90%", height: "100%" }} type="number" value={tax.toString()} onChange={(e) => { setTax(e.target.value===""? 0 : parseFloat(e.target.value)) }} /></div>
+											<div style={{ width: "20%", marginRight: "8%" }}><input className='my_input' style={{ width: "90%", height: "100%" }} type="number" value={tax.toString()} onChange={(e) => { setTax(e.target.value === "" ? 0 : parseFloat(e.target.value)) }} /></div>
 										</div>
 										<hr style={{ width: "50%", marginLeft: "auto" }} />
 										<div style={{ display: "flex", alignItems: "center", justifyContent: "flex-end", margin: "0.2rem 0" }}>
@@ -331,7 +318,7 @@ function OrderAddNew() {
 
 									{
 										permission.create &&
-										<button className='btn success' style={{ alignSelf: "center" }} disabled={submitButtonState} 
+										<button className='btn success' style={{ alignSelf: "center" }} disabled={submitButtonState}
 											onClick={() => {
 												swal({
 													title: "Are you sure?",
@@ -339,19 +326,19 @@ function OrderAddNew() {
 													icon: "warning",
 													buttons: true,
 												})
-												.then((val) => {
-													if (val) {
-														insertOrder()		
-													}
-												});
-											}} 
+													.then((val) => {
+														if (val) {
+															insertOrder()
+														}
+													});
+											}}
 										>{!submitButtonState ? <span>Submit</span> : <span><div className="button-loader"></div></span>}
 										</button>
 									}
 								</div>
 							</div>
 							:
-							<Error/>
+							<Error />
 				}
 			</div>
 		</div>

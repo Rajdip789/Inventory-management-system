@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext } from "react";
 import { OverlayTrigger, Popover } from 'react-bootstrap';
 
 import { DarkModeContext } from "../../context/darkModeContext";
-import { getCookie } from '../../cookie';
 import "./Header.scss";
 
 import LanguageOutlinedIcon from "@mui/icons-material/LanguageOutlined";
@@ -23,10 +22,7 @@ const Header = () => {
 	const getProfile = async () => {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_profile`, {
 			method: 'POST',
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
-			},
+			credentials: 'include'
 		})
 
 		let body = await result.json()

@@ -3,12 +3,10 @@ import { Link } from "react-router-dom";
 import "./AsideNavbar.scss";
 
 import swal from 'sweetalert';
-import { setCookie, getCookie } from '../../cookie';
 import { DarkModeContext } from "../../context/darkModeContext";
 
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import StoreIcon from "@mui/icons-material/Store";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
@@ -25,48 +23,34 @@ function AsideNavbar() {
 	const [toggel, setToggel] = useState(false)
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation === 'success') {
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				if (body.operation === 'success') {
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							let p = JSON.parse(body.info)
+							setPermission(p)
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								{/*console.log(JSON.parse(body.info));*/ }
-								let p = JSON.parse(body.info)
-								setPermission(p)
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 	const logout = () => {
@@ -77,10 +61,17 @@ function AsideNavbar() {
 			buttons: true,
 			dangerMode: true,
 		})
-			.then((willDelete) => {
+			.then( async (willDelete) => {
 				if (willDelete) {
-					setCookie('accessToken', '', -1);
-					window.location.href = '/login';
+					let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/logout`, {
+						method: 'GET',
+						credentials: 'include'
+					})
+
+					let body = await result.json()
+					if (body.operation === 'success') {
+						window.location.href = '/login';
+					}
 				}
 			});
 	}
@@ -91,7 +82,11 @@ function AsideNavbar() {
 			<div className="asideNavbar__panel">
 				<div className="top border-bottom">
 					<Link to="/" style={{ textDecoration: "none" }}>
-						<span className="logo">Admin</span>
+						{
+							permission.length > 0 && permission.find(x => x.page === 'employees').view === true ?
+							<span className="logo">Admin</span> :
+							<span className="logo">Employee</span>
+						}
 					</Link>
 				</div>
 				<div className="center">
@@ -216,7 +211,7 @@ function AsideNavbar() {
 				</div>
 			</div>
 
-			<div className='asideNavbar__menu' style={toggel ? {left : "0px" } : {}}>
+			<div className='asideNavbar__menu' style={toggel ? { left: "0px" } : {}}>
 				<div className="top">
 					<div className='toggelDiv'><CloseOutlined onClick={() => setToggel(false)} /></div>
 				</div>

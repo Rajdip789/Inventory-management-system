@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import './Login.scss';
-import { setCookie, getCookie } from '../../cookie';
 
 import swal from 'sweetalert';
 import CryptoJS from 'crypto-js';
 import { Link } from 'react-router-dom';
-import { EmailOutlined, SecurityOutlined, Google } from "@mui/icons-material";
+import { EmailOutlined, SecurityOutlined } from "@mui/icons-material";
 
 function Login() {
 	const [email, setEmail] = useState('');
@@ -13,16 +12,10 @@ function Login() {
 	const [submitButtonState, setSubmitButtonState] = useState(false);
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
 			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
 				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
+				credentials: 'include'
 			})
 			.then(async (response) => {
 				let body = await response.json()
@@ -34,7 +27,6 @@ function Login() {
 			.catch((error) => {
 				console.log(error)
 			})	
-		}
 	}, [])
 
 
@@ -65,17 +57,15 @@ function Login() {
 			headers: {
 				'Content-type': 'application/json; charset=UTF-8',
 			},
-			body: JSON.stringify(obj)
+			body: JSON.stringify(obj),
+			credentials: 'include'
 		})
 		let body = await response.json()
 
-		// await new Promise(r => setTimeout(r, 5000))
+		//await new Promise(r => setTimeout(r, 10000))
 		setSubmitButtonState(false)
-		console.log(body)
 
 		if (body.operation === 'success') {
-			console.log('Login successfull')
-			setCookie('accessToken', body.info.accessToken, process.env.REACT_APP_JWT_EXPIRY)
 			window.location.href = '/dashboard'
 		} else {
 			swal("Oops!", body.message, "error")
@@ -84,16 +74,16 @@ function Login() {
 
 	return (
 		<div className='login'>
-			<img className="wave" src="./images/wave.png" />
+			<img className="wave" alt='wave bg' src="./images/wave.png" />
 			<div className="login-container">
 				<div className="img">
-					<img src="./images/bg.svg" />
+					<img alt='background' src="./images/bg.svg" />
 				</div>
 
 				<div className="login-content">
 					<div className='myform'>
-						<img src="./images/avatar.svg" />
-						<h3 className="title">Welcome Back!</h3>
+						<img alt='profile' src="./images/avatar.svg" />
+						<h1 className="title">Welcome Back!</h1>
 						<div className="input-div one">
 							<div className="i">
 								<EmailOutlined/>
@@ -111,7 +101,7 @@ function Login() {
 							</div>
 						</div>
 						<div className="d-flex justify-content-between">
-							<Link to="/registration">Don't have an Account?</Link>
+							<Link></Link>
 							<Link to="/forgetpassword">Forgot Password?</Link>
 						</div>
 						<button className="btn" disabled={submitButtonState} onClick={() => { login() }}>
@@ -121,15 +111,7 @@ function Login() {
 									<span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Please wait<div className="loader"></div></span>
 							}
 						</button>	
-						<button className="btn google" disabled={submitButtonState} onClick={() => { login() }}>
-							{
-								!submitButtonState ?
-									<span className='d-flex align-itmes-center justify-content-center gap-2'>
-										<Google style={{ marginTop : "2px" }}/><>Login with google</>
-									</span> :
-									<span style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>Please wait<div className="loader"></div></span>
-							}
-						</button>
+						
 					</div>
 				</div>
 			</div>

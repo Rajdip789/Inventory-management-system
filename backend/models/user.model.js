@@ -33,7 +33,8 @@ class User {
 								process.env.JWT_SEC,
 								{ expiresIn: process.env.JWT_EXPIRY }
 							)
-							resolve({ operation: "success", message: 'login successfull', info: { accessToken: accessToken } });
+							res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 60*60*1000 }); 
+							resolve({ operation: "success", message: 'login successfull' });
 						} else {
 							reject({ operation: "error", message: 'password wrong' });
 						}
@@ -55,9 +56,14 @@ class User {
 		}
 	}
 
+	logout = (req, res) => {
+		res.cookie("accessToken", "", { maxAge: 1 });
+		res.send({ operation: "success", message: 'Logout successfully'});
+	  };
+
 	refreshToken = (req, res) => {
 		try {
-			let prevToken = req.headers.access_token;
+			let prevToken = req.cookies.accessToken;
 			let d = jwt.decode(prevToken, { complete: true });
 
 			let newToken = jwt.sign(
@@ -68,7 +74,8 @@ class User {
 				process.env.JWT_SEC,
 				{ expiresIn: process.env.JWT_EXPIRY }
 			);
-			res.send({ operation: "success", message: 'Token refreshed', info: { accessToken: newToken } });
+			res.cookie('accessToken', newToken, { httpOnly: true }); 
+			res.send({ operation: "success", message: 'Token refreshed' });
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -76,19 +83,21 @@ class User {
 	}
 
 	verifyToken = (req, res) => {
-		let temptoken = req.body.access_token;
+		let temptoken = req.cookies.accessToken;
+		
 		jwt.verify(temptoken, process.env.JWT_SEC, (err, payload) => {
 			if (err) {
 				res.send({ operation: "error", message: 'Token expired' });
-				console.log("jwt token failed");
+				//console.log("jwt token failed from api");
 			}
+			//console.log("token verfied from api")
 			res.send({ operation: "success", message: 'Token verified' });
 		})
 	}
 
 	getPermission = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -123,7 +132,7 @@ class User {
 
 	getEmployees = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -174,7 +183,7 @@ class User {
 
 	addEmployee = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -221,7 +230,7 @@ class User {
 
 	deleteEmployee = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -249,7 +258,7 @@ class User {
 
 	updateEmployee = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -260,7 +269,7 @@ class User {
 						return reject(err1);
 					}
 
-					if ((result1.length > 0) && (result1[0].user_id!=req.body.user_id)) {
+					if ((result1.length > 0) && (result1[0].user_id != req.body.user_id)) {
 						resolve({ operation: "error", message: 'Duplicate user email' });
 					}
 					else {
@@ -274,13 +283,13 @@ class User {
 					}
 				})
 			})
-			.then((value) => {
-				res.send(value);
-			})
-			.catch((err) => {
-				console.log(err);
-				res.send({ operation: "error", message: 'Something went wrong' });
-			})
+				.then((value) => {
+					res.send(value);
+				})
+				.catch((err) => {
+					console.log(err);
+					res.send({ operation: "error", message: 'Something went wrong' });
+				})
 		} catch (error) {
 			console.log(error);
 			res.send({ operation: "error", message: 'Something went wrong' });
@@ -289,7 +298,7 @@ class User {
 
 	getProfile = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -318,7 +327,7 @@ class User {
 
 	updateProfile = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -379,7 +388,7 @@ class User {
 
 	updateProfilePassword = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 

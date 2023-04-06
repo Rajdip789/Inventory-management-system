@@ -11,7 +11,7 @@ class Product {
 
 	getProducts = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -62,7 +62,7 @@ class Product {
 
 	getProductsSearch = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -91,7 +91,7 @@ class Product {
 
 	getProductsDetailsById = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -120,7 +120,7 @@ class Product {
 
 	addProduct = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -148,7 +148,7 @@ class Product {
 
 	updateProduct = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -180,7 +180,7 @@ class Product {
 
 	deleteProduct = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -237,7 +237,7 @@ class Product {
 
 	deleteProductImage = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 

@@ -6,7 +6,6 @@ import Table from '../Table/Table'
 
 import moment from 'moment'
 import swal from 'sweetalert';
-import { setCookie, getCookie } from '../../cookie';
 import Loader from '../PageStates/Loader';
 import Error from '../PageStates/Error';
 
@@ -34,53 +33,41 @@ function Employees() {
 	const [editModalSubmitButton, setEditModalSubmitButton] = useState(false)
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				
+				if (body.operation === 'success') {
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							//console.log(JSON.parse(body.info));
+							let p = JSON.parse(body.info).find(x => x.page === 'employees')
+							if (p.view !== true) {
+								window.location.href = '/unauthorized';
+							} else {
+								setPermission(p)
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page === 'employees')
-								if (p.view !== true) {
-									window.location.href = '/unauthorized';
-								} else {
-									setPermission(p)
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 
@@ -88,10 +75,10 @@ function Employees() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_employees`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ start_value: sv, sort_column : sc, sort_order : so, search_value : scv })
+			body: JSON.stringify({ start_value: sv, sort_column: sc, sort_order: so, search_value: scv }),
+			credentials: 'include',
 		})
 
 		let body = await result.json()
@@ -125,10 +112,10 @@ function Employees() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/delete_employee`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ user_id: id })
+			body: JSON.stringify({ user_id: id }),			
+			credentials: 'include',
 		})
 
 		let body = await result.json()
@@ -152,7 +139,7 @@ function Employees() {
 				tObj.addedon = moment(obj.timeStamp).format('MMMM Do, YYYY');
 				tObj.action =
 					<>
-						<button className='btn warning' style={{marginRight: '0.5rem'}} onClick={() => { editModalInit(obj.user_id) }}>View/Edit</button>
+						<button className='btn warning' style={{ marginRight: '0.5rem' }} onClick={() => { editModalInit(obj.user_id) }}>View/Edit</button>
 						{
 							permission.delete &&
 							<button className='btn danger' style={{ marginLeft: '0.5rem' }}
@@ -215,16 +202,16 @@ function Employees() {
 		obj.email = editEmail;
 
 		//console.log(Array.from(f.values()).map(x => x).join(", "))
-		console.log(obj)
+		//console.log(obj)
 		setEditModalSubmitButton(true);
 
 		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/update_employee`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken')
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify(obj)
+			body: JSON.stringify(obj),			
+			credentials: 'include',
 		})
 		let body = await response.json()
 
@@ -260,18 +247,18 @@ function Employees() {
 
 				{
 					pageState === 1 ?
-						<Loader/>
+						<Loader />
 						: pageState === 2 ?
 							<div className="card">
 								<div className="container">
 									<Table
 										headers={['Sl.', 'Name', 'Address', 'Email', 'Added on', 'Action']}
-										columnOriginalNames={["user_name","address","email","timeStamp"]}
+										columnOriginalNames={["user_name", "address", "email", "timeStamp"]}
 										sortColumn={sortColumn}
 										setSortColumn={setSortColumn}
 										sortOrder={sortOrder}
 										setSortOrder={setSortOrder}
-										data={data}	
+										data={data}
 										data_count={empCount}
 										searchInput={searchInput}
 										setSearchInput={setSearchInput}
@@ -282,7 +269,7 @@ function Employees() {
 								</div>
 							</div>
 							:
-							<Error/>
+							<Error />
 				}
 
 				<Modal show={editModalShow} onHide={() => { handleEditModalClose() }} size="l" centered >
@@ -311,7 +298,7 @@ function Employees() {
 					</Modal.Body>
 					<Modal.Footer>
 						<button className='btn btn-outline-danger' style={{ transition: "color 0.4s, background-color 0.4s" }} onClick={() => { handleEditModalClose() }}>Cancel</button>
-						<button className='btn btn-outline-success' style={{ transition: "color 0.4s, background-color 0.4s" }} 
+						<button className='btn btn-outline-success' style={{ transition: "color 0.4s, background-color 0.4s" }}
 							onClick={(e) => {
 								swal({
 									title: "Are you sure?",

@@ -6,7 +6,6 @@ import Table from '../Table/Table'
 
 import moment from 'moment'
 import swal from 'sweetalert';
-import { setCookie, getCookie } from '../../cookie';
 import Loader from '../PageStates/Loader';
 import Error from '../PageStates/Error';
 
@@ -29,53 +28,41 @@ function Orders() {
 	const [productDetails, setProductDetails] = useState([])
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation  === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				// console.log(body)
+				if (body.operation === 'success') {
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							//console.log(JSON.parse(body.info));
+							let p = JSON.parse(body.info).find(x => x.page === 'orders')
+							if (p.view !== true) {
+								window.location.href = '/unauthorized';
+							} else {
+								setPermission(p)
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page  === 'orders')
-								if (p.view !== true) {
-									window.location.href = '/unauthorized';
-								} else {
-									setPermission(p)
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 
@@ -83,10 +70,10 @@ function Orders() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_orders`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ start_value: sv, sort_column : sc, sort_order : so, search_value : scv })
+			body: JSON.stringify({ start_value: sv, sort_column: sc, sort_order: so, search_value: scv }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -98,10 +85,10 @@ function Orders() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_products_details_by_id`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ product_id_list: value })
+			body: JSON.stringify({ product_id_list: value }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -134,14 +121,14 @@ function Orders() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/delete_order`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ order_id: id })
+			body: JSON.stringify({ order_id: id }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
-		if (body.operation  === 'success') {
+		if (body.operation === 'success') {
 			getOrders((tablePage - 1) * 10, sortColumn, sortOrder, searchInput);
 			swal('Success', body.message, 'success')
 		} else {
@@ -191,7 +178,7 @@ function Orders() {
 	}, [orders])
 
 	const viewModalInit = (id) => {
-		let p = orders.find(x => x.order_id  === id)
+		let p = orders.find(x => x.order_id === id)
 		setViewOrderDetails(p)
 		setViewModalShow(true);
 
@@ -205,7 +192,7 @@ function Orders() {
 	}
 
 	return (
-		<div className='orders'>		
+		<div className='orders'>
 			<div style={{ overflow: "scroll", height: "100%" }} >
 				<div className='order-header'>
 					<div className='title'>Orders</div>
@@ -213,14 +200,14 @@ function Orders() {
 				</div>
 
 				{
-					pageState  === 1 ?
-						<Loader/>
-						: pageState  === 2 ?
+					pageState === 1 ?
+						<Loader />
+						: pageState === 2 ?
 							<div className="card">
 								<div className="container">
 									<Table
 										headers={['Sl.', 'Order Ref.', 'Customer Name', 'Due date', 'Grand Total', 'Added on', 'Action']}
-										columnOriginalNames={["order_ref","name","due_date","grand_total","timeStamp"]}
+										columnOriginalNames={["order_ref", "name", "due_date", "grand_total", "timeStamp"]}
 										sortColumn={sortColumn}
 										setSortColumn={setSortColumn}
 										sortOrder={sortOrder}
@@ -236,7 +223,7 @@ function Orders() {
 								</div>
 							</div>
 							:
-							<Error/>
+							<Error />
 				}
 
 				<Modal show={viewModalShow} onHide={() => { handleViewModalClose() }} size="lg" centered >
@@ -248,19 +235,19 @@ function Orders() {
 							<div className='card my_card' style={{ flex: 1 }}>
 								<div className='card-body'>
 									{
-										viewOrderDetails !== null && 
+										viewOrderDetails !== null &&
 										<>
 											<div className='form-group mb-2'>
 												<label className='fst-italic fw-bold'>Order Reference</label>
-												<input className='my_form_control' type='text' value={viewOrderDetails.order_ref } readOnly />
+												<input className='my_form_control' type='text' value={viewOrderDetails.order_ref} readOnly />
 											</div>
 											<div className='form-group mb-2'>
 												<label className='fst-italic fw-bold'>Customer Name</label>
-												<input className='my_form_control' type='text' value={viewOrderDetails.customer_name } readOnly />
+												<input className='my_form_control' type='text' value={viewOrderDetails.customer_name} readOnly />
 											</div>
 											<div className='form-group mb-2'>
 												<label className='fst-italic fw-bold'>Due Date</label>
-												<input className='my_form_control' type='text' value={moment(viewOrderDetails.due_date ).format('MMMM Do, YYYY')} readOnly />
+												<input className='my_form_control' type='text' value={moment(viewOrderDetails.due_date).format('MMMM Do, YYYY')} readOnly />
 											</div>
 											<div className='form-group mb-2'>
 												<label className='fst-italic fw-bold'>Tax</label>
@@ -268,40 +255,40 @@ function Orders() {
 											</div>
 											<div className='form-group mb-2'>
 												<label className='fst-italic fw-bold'>Grand Total</label>
-												<input className='my_form_control' type='text' value={viewOrderDetails.grand_total } readOnly />
+												<input className='my_form_control' type='text' value={viewOrderDetails.grand_total} readOnly />
 											</div>
 											<div className='form-group mb-2'>
 												<label className='fst-italic fw-bold mb-2'>Item Details:</label>
 												<div className='p-2 border rounded'>
 													<div className='mb-2 row gx-0'>
-														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Image</div>
-														<div className='fw-bold text-secondary col-4 d-flex align-items-center text-uppercase justify-content-start' style={{ fontSize : "smaller" }}>Product Name</div>
-														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Quantity</div>
-														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Rate</div>
-														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize : "smaller" }}>Total</div>
+														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize: "smaller" }}>Image</div>
+														<div className='fw-bold text-secondary col-4 d-flex align-items-center text-uppercase justify-content-start' style={{ fontSize: "smaller" }}>Product Name</div>
+														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize: "smaller" }}>Quantity</div>
+														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize: "smaller" }}>Rate</div>
+														<div className='fw-bold text-secondary col-2 d-flex align-items-center text-uppercase justify-content-center' style={{ fontSize: "smaller" }}>Total</div>
 													</div>
 													{
 														productDetails.length > 0 && JSON.parse(viewOrderDetails.items).map((viewItem, ind) => {
-															let img = productDetails.find(x=>x.product_id === viewItem.product_id).image
+															let img = productDetails.find(x => x.product_id === viewItem.product_id).image
 															return (
-																<div key={ind} className='py-2 row gx-0' style={{ borderBottom : "1px dashed lightgray" }}>
+																<div key={ind} className='py-2 row gx-0' style={{ borderBottom: "1px dashed lightgray" }}>
 																	<div className='col-2 d-flex align-items-center justify-content-center'>
 																		<OverlayTrigger
 																			trigger={['hover', 'focus']}
 																			placement="left"
 																			overlay={
-																				(<Popover id="popover-basic" style={{ backgroundColor : "#ebf4ee", boxShadow: "rgb(0 0 0 / 75%) 0px 0px 16px -5px" }}>
+																				(<Popover id="popover-basic" style={{ backgroundColor: "#ebf4ee", boxShadow: "rgb(0 0 0 / 75%) 0px 0px 16px -5px" }}>
 																					<Popover.Body style={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center", gap: "3px" }}>
-																					{
-																						img  === null ? 
-																						<div className='d-flex align-items-center text-dark fs-5 text-center' style={{ width: "10rem", height: "10rem" }}>No image available</div> :
-																						<img style={{"width" : "14rem", "borderRadius" : "5px" }} src={`${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${img}`} alt="product"/>
-																					}
+																						{
+																							img === null ?
+																								<div className='d-flex align-items-center text-dark fs-5 text-center' style={{ width: "10rem", height: "10rem" }}>No image available</div> :
+																								<img style={{ "width": "14rem", "borderRadius": "5px" }} src={`${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${img}`} alt="product" />
+																						}
 																					</Popover.Body>
 																				</Popover>)
 																			}
 																		>
-																			<img style={{"width" : "60px", "height" :  "60px", "borderRadius" : "5px", "objectFit" : "cover", cursor: "pointer" }} src={img === null? "https://lh3.googleusercontent.com/SMKEdK_g-LuC3ero8vP9d4lPJBKyzc4t91-GYLQ1vEkhv87KyaxFmWFeEb6ZcyRNet0" : `${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${img}`} alt="product"/>
+																			<img style={{ "width": "60px", "height": "60px", "borderRadius": "5px", "objectFit": "cover", cursor: "pointer" }} src={img === null ? "https://lh3.googleusercontent.com/SMKEdK_g-LuC3ero8vP9d4lPJBKyzc4t91-GYLQ1vEkhv87KyaxFmWFeEb6ZcyRNet0" : `${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${img}`} alt="product" />
 																		</OverlayTrigger>
 																	</div>
 																	<div className='col-4 d-flex align-items-center justify-content-start'>{viewItem.product_name}</div>

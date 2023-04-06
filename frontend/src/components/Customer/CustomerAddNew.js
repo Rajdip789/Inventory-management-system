@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './CustomerAddNew.scss'
 
 import swal from 'sweetalert';
-import { setCookie, getCookie } from '../../cookie';
 import Loader from '../PageStates/Loader';
 import Error from '../PageStates/Error';
 
@@ -17,53 +16,41 @@ function CustomerAddNew() {
 	const [submitButtonState, setSubmitButtonState] = useState(false)
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				// console.log(body)
+				if (body.operation === 'success') {
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							//console.log(JSON.parse(body.info));
+							let p = JSON.parse(body.info).find(x => x.page === 'customers')
+							if (p.view && p.create) {
+								setPermission(p)
+							} else {
+								window.location.href = '/unauthorized';
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page === 'customers')
-								if (p.view && p.create) {
-									setPermission(p)
-								} else {
-									window.location.href = '/unauthorized';
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 	useEffect(() => {
@@ -104,10 +91,10 @@ function CustomerAddNew() {
 		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/add_customer`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken')
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify(obj)
+			body: JSON.stringify(obj),
+			credentials: 'include'
 		})
 		let body = await response.json()
 
@@ -135,7 +122,7 @@ function CustomerAddNew() {
 
 			{
 				pageState === 1 ?
-					<Loader/>
+					<Loader />
 					: pageState === 2 ?
 						<div className="card">
 							<div className="container" style={{ display: "flex", flexDirection: "column" }}>
@@ -170,7 +157,7 @@ function CustomerAddNew() {
 							</div>
 						</div>
 						:
-						<Error/>
+						<Error />
 			}
 		</div>
 	)

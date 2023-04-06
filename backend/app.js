@@ -2,6 +2,7 @@ const express = require('express');
 const app = express();
 const dotenv = require("dotenv");
 const cors = require('cors');
+const cookieParser = require('cookie-parser')
 
 const port = process.env.PORT || 5000
 
@@ -9,6 +10,8 @@ dotenv.config();
 
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
+app.use(cookieParser())
+
 
 const corsOption = {
     origin: ['http://localhost:3000'],

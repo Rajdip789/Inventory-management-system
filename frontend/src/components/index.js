@@ -2,7 +2,6 @@ export { default as  NotFound} from './NotFoundPage/NotFound'
 export { default as  Unauthorized} from './UnauthorizedPage/Unauthorized'
 
 export { default as  Login} from './Login/Login'
-export { default as  Registration} from './Registration/Registration'
 export { default as  Forgetpassword} from './Forgetpassword/Forgetpassword'
 
 export { default as  AsideNavbar} from './Asidenavbar/AsideNavbar'

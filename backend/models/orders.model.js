@@ -9,7 +9,7 @@ class Order {
 
 	getOrders = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -60,7 +60,7 @@ class Order {
 
 	addOrder = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -109,7 +109,7 @@ class Order {
 
 	deleteOrder = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 

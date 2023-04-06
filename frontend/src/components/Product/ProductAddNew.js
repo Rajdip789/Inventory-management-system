@@ -4,7 +4,6 @@ import './ProductAddNew.scss'
 import swal from 'sweetalert';
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 
-import { getCookie } from '../../cookie';
 import Error from '../PageStates/Error';
 import Loader from '../PageStates/Loader';
 
@@ -29,53 +28,41 @@ function ProductAddNew() {
 	const [imageData, setImageData] = useState(null)
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				// console.log(body)
+				if (body.operation === 'success') {
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							//console.log(JSON.parse(body.info));
+							let p = JSON.parse(body.info).find(x => x.page === 'products')
+							if (p.view && p.create) {
+								setPermission(p)
+							} else {
+								window.location.href = '/unauthorized';
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page === 'products')
-								if (p.view && p.create) {
-									setPermission(p)
-								} else {
-									window.location.href = '/unauthorized';
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 	useEffect(() => {
@@ -92,7 +79,7 @@ function ProductAddNew() {
 			}
 			f.readAsDataURL(image)
 		}
-		else{
+		else {
 			setImageData(null)
 		}
 	}, [image])
@@ -102,15 +89,15 @@ function ProductAddNew() {
 			swal("Oops!", "Name can't be empty", "error")
 			return;
 		}
-		if ((sellingPrice === "") || (parseFloat(sellingPrice) <= 0 )) {
+		if ((sellingPrice === "") || (parseFloat(sellingPrice) <= 0)) {
 			swal("Oops!", "Selling Price can't be empty", "error")
 			return;
 		}
-		if ((purchasePrice === "") || (parseFloat(purchasePrice) <= 0 )) {
+		if ((purchasePrice === "") || (parseFloat(purchasePrice) <= 0)) {
 			swal("Oops!", "Purchase Price can't be empty", "error")
 			return;
 		}
-		if ((stock < 0) || (parseInt(stock) < 0 )) {
+		if ((stock < 0) || (parseInt(stock) < 0)) {
 			swal("Oops!", "Product stock can't be negative", "error")
 			return;
 		}
@@ -132,10 +119,8 @@ function ProductAddNew() {
 
 		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/add_product`, {
 			method: 'POST',
-			headers: {
-				'access_token': getCookie('accessToken')
-			},
-			body: f
+			body: f,
+			credentials: 'include'
 		})
 		let body = await response.json()
 
@@ -171,14 +156,14 @@ function ProductAddNew() {
 
 			{
 				pageState === 1 ?
-					<Loader/>
+					<Loader />
 					: pageState === 2 ?
 						<div className="card">
 							<div className="container">
 
-								<div style={{ display: "flex", gap:"1rem" }}>
+								<div style={{ display: "flex", gap: "1rem" }}>
 									<div className="left">
-										<img src={!imageData ? '/images/default_image.jpg' : imageData} alt="product_image" style={{borderRadius: "2rem", width: "45%", padding: "5%", border: "1px #89c878 solid" }} />
+										<img src={!imageData ? '/images/default_image.jpg' : imageData} alt="product_image" style={{ borderRadius: "2rem", width: "45%", padding: "5%", border: "1px #89c878 solid" }} />
 
 										<div>
 											<button className='btn my_btn mx-1 border-0' onClick={() => { fileInputRef.current.click() }} >
@@ -196,7 +181,7 @@ function ProductAddNew() {
 													}
 												}}
 											/>
-											{image!==null && <button className='btn my_btn mx-1 border-0' onClick={() => {setImage(null)}}><DeleteOutline className=''/></button>}
+											{image !== null && <button className='btn my_btn mx-1 border-0' onClick={() => { setImage(null) }}><DeleteOutline className='' /></button>}
 										</div>
 									</div>
 									<div className="right">
@@ -264,7 +249,7 @@ function ProductAddNew() {
 							</div>
 						</div>
 						:
-						<Error/>
+						<Error />
 			}
 		</div>
 	)

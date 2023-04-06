@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './Dashboard.scss'
 import Feature from './Features/Feature'
 import Chart from './chart/Chart'
-import { getCookie } from '../../cookie'
 import Loader from '../PageStates/Loader'
 import Error from '../PageStates/Error'
 
@@ -18,62 +17,44 @@ function Dashboard() {
 	const [productGenderP, setProductGenderP] = useState([])
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				if (body.operation === 'success') {
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+							let p = JSON.parse(body.info).find(x => x.page === 'dashboard')
+							if (p.view && p.create) {
+								setPermission(p)
+							} else {
+								window.location.href = '/unauthorized';
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page === 'dashboard')
-								if (p.view && p.create) {
-									setPermission(p)
-								} else {
-									window.location.href = '/unauthorized';
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 	const getReportStats = async () => {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_report_stats`, {
 			method: 'POST',
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
-			}
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -83,10 +64,7 @@ function Dashboard() {
 	const getProductStats = async () => {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_product_stats`, {
 			method: 'POST',
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
-			}
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -96,13 +74,9 @@ function Dashboard() {
 	const getGraphStats = async () => {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_graph_stats`, {
 			method: 'POST',
-			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
-			}
+			credentials: 'include'
 		})
 
-		//await setTimeout()
 		let body = await result.json()
 		setGraphStats(body.info)
 	}
