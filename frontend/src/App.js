@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import {BrowserRouter, Route, Routes } from "react-router-dom";
-import { NotFound, Unauthorized, Login, Registration, Forgetpassword, Dashboard, Employee, EmployeeAddNew, Product, ProductAddNew, Supplier, SupplierAddNew, Expense, ExpenseAddNew, Customer, CustomerAddNew, Order, OrderAddNew, Profile, Settings, Layout } from './components'
+import { NotFound, Unauthorized, Login, Forgetpassword, Dashboard, Employee, EmployeeAddNew, Product, ProductAddNew, Supplier, SupplierAddNew, Expense, ExpenseAddNew, Customer, CustomerAddNew, Order, OrderAddNew, Profile, Settings, Layout } from './components'
 import "./style/dark.scss"
 import { DarkModeContext } from './context/darkModeContext';
 
@@ -13,9 +13,8 @@ function App() {
 				<Routes>
 					<Route path='*' element={<NotFound />}/>
 					<Route path='/unauthorized' element={<Unauthorized />}/>
-					<Route path='/' element={<Registration />}/>
+					{/* <Route path='/' element={<Registration />}/> */}
 					<Route path='/login' element={<Login />}/>
-					<Route path='/registration' element={<Registration />}/>
 					<Route path='/forgetpassword' element={<Forgetpassword />}/>
 					<Route path='/' element={<Layout/>}>
 						<Route path='/dashboard' element={<Dashboard/>}/>

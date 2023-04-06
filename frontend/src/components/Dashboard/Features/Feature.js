@@ -46,7 +46,7 @@ export default function Feature({reportStats}) {
 			<div className="featuredItem">
 				<span className="featuredTitle">Orders</span>
 				<div className="featuredMoneyContainer">
-					<span className="featuredMoney">₹{o1}</span>
+					<span className="featuredMoney">₹{Math.round(o1)}</span>
 					<div className="d-flex align-items-center" style={{ color: porder >= 0 ? "green" : "red" }}>					
 						<span className="featuredMoneyRate">{Math.round(porder * 100)/100}%</span>
 						{porder >= 0 ? <ArrowUpward/> : <ArrowDownward/>}
@@ -60,7 +60,7 @@ export default function Feature({reportStats}) {
 			<div className="featuredItem">
 				<span className="featuredTitle">Expense</span>
 				<div className="featuredMoneyContainer">
-					<span className="featuredMoney">₹{e1}</span>
+					<span className="featuredMoney">₹{Math.round(e1)}</span>
 					<div className="d-flex align-items-center" style={{ color: pexpense >= 0 ? "green" : "red" }}>
 						<span className="featuredMoneyRate">{Math.round(pexpense * 100)/100}%</span>
 						{pexpense >= 0 ? <ArrowUpward/> : <ArrowDownward/>}
@@ -74,9 +74,9 @@ export default function Feature({reportStats}) {
 			<div className="featuredItem">
 				<span className="featuredTitle">Revenue</span>
 				<div className="featuredMoneyContainer">
-					<span className="featuredMoney">₹{o1 - e1}</span>
+					<span className="featuredMoney">₹{Math.round(o1 - e1)}</span>
 					<div className="d-flex align-items-center" style={{ color: "red" }}>
-						<span className="featuredMoneyRate">{Math.round(prevenue * 100)/100}%</span>
+						<span className="featuredMoneyRate">{Math.round(prevenue * 100)/100	}%</span>
 						<ArrowDownward />
 					</div>
 				</div>

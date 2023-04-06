@@ -6,7 +6,6 @@ import Table from '../Table/Table'
 
 import moment from 'moment'
 import swal from 'sweetalert';
-import { getCookie } from '../../cookie';
 
 import DeleteOutline from '@mui/icons-material/DeleteOutline';
 import Loader from '../PageStates/Loader';
@@ -49,53 +48,41 @@ function Products() {
 
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				// console.log(body)
+				if (body.operation === 'success') {
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							//console.log(JSON.parse(body.info));
+							let p = JSON.parse(body.info).find(x => x.page === 'products')
+							if (p.view !== true) {
+								window.location.href = '/unauthorized';
+							} else {
+								setPermission(p)
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page === 'products')
-								if (p.view !== true) {
-									window.location.href = '/unauthorized';
-								} else {
-									setPermission(p)
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 
@@ -103,10 +90,10 @@ function Products() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_products`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ start_value: sv, sort_column : sc, sort_order : so, search_value : scv })
+			body: JSON.stringify({ start_value: sv, sort_column: sc, sort_order: so, search_value: scv }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -140,10 +127,10 @@ function Products() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/delete_product`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ product_id: id })
+			body: JSON.stringify({ product_id: id }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -218,10 +205,10 @@ function Products() {
 		let result = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/delete_product_image`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken'),
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify({ product_id: id })
+			body: JSON.stringify({ product_id: id }),
+			credentials: 'include'
 		})
 
 		let body = await result.json()
@@ -249,15 +236,15 @@ function Products() {
 			swal("Oops!", "Name can't be empty", "error")
 			return;
 		}
-		if ((editSellingPrice === "") || (parseFloat(editSellingPrice) <= 0 )) {
+		if ((editSellingPrice === "") || (parseFloat(editSellingPrice) <= 0)) {
 			swal("Oops!", "Selling Price can't be empty", "error")
 			return;
 		}
-		if ((editPurchasePrice === "") || (parseFloat(editPurchasePrice) <= 0 )) {
+		if ((editPurchasePrice === "") || (parseFloat(editPurchasePrice) <= 0)) {
 			swal("Oops!", "Purchase Price can't be empty", "error")
 			return;
 		}
-		if ((editStock < 0) || (parseInt(editStock) < 0 )) {
+		if ((editStock < 0) || (parseInt(editStock) < 0)) {
 			swal("Oops!", "Product stock can't be negative", "error")
 			return;
 		}
@@ -280,10 +267,8 @@ function Products() {
 
 		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/update_product`, {
 			method: 'POST',
-			headers: {
-				'access_token': getCookie('accessToken')
-			},
-			body: f
+			body: f,
+			credentials: 'include'
 		})
 		let body = await response.json()
 
@@ -322,7 +307,7 @@ function Products() {
 
 	return (
 		<div className='products'>
-			<div style={{ overflow: "scroll", height: "100%" }} >
+			<div className='products-scroll' >
 				<div className='product-header'>
 					<div className='title'>Products</div>
 					{permission !== null && permission.create && <Link to={"/products/addnew"} className='btn success' style={{ margin: "0 0.5rem", textDecoration: "none" }}>Add New</Link>}
@@ -330,13 +315,13 @@ function Products() {
 
 				{
 					pageState === 1 ?
-						<Loader/>
+						<Loader />
 						: pageState === 2 ?
 							<div className="card">
 								<div className="container">
 									<Table
 										headers={['Sl.', 'Name', 'Gender', 'Size', 'Current Stock', 'Added on', 'Action']}
-										columnOriginalNames={["name","gender","size","product_stock","timeStamp"]}
+										columnOriginalNames={["name", "gender", "size", "product_stock", "timeStamp"]}
 										sortColumn={sortColumn}
 										setSortColumn={setSortColumn}
 										sortOrder={sortOrder}
@@ -352,7 +337,7 @@ function Products() {
 								</div>
 							</div>
 							:
-							<Error/>
+							<Error />
 				}
 
 				<Modal show={editModalShow} onHide={() => { handleEditModalClose() }} size="lg" centered >
@@ -411,7 +396,7 @@ function Products() {
 										editOldImage !== null ?
 											<>
 												<img src={`${process.env.REACT_APP_BACKEND_ORIGIN}/uploads/${editOldImage}`} alt="product_image" className='rounded' style={{ width: "90%", margin: "15px", border: "1px #89c878 solid" }} />
-												<button className='btn my_btn' 
+												<button className='btn my_btn'
 													onClick={() => {
 														swal({
 															title: "Are you sure?",
@@ -426,7 +411,7 @@ function Products() {
 																}
 															});
 													}}
-												><DeleteOutline className=''/>
+												><DeleteOutline className='' />
 												</button>
 											</> :
 											<>
@@ -436,7 +421,7 @@ function Products() {
 														<g><path d="M328.883,89.125l107.59,107.589l-272.34,272.34L56.604,361.465L328.883,89.125z M518.113,63.177l-47.981-47.981   c-18.543-18.543-48.653-18.543-67.259,0l-45.961,45.961l107.59,107.59l53.611-53.611   C532.495,100.753,532.495,77.559,518.113,63.177z M0.3,512.69c-1.958,8.812,5.998,16.708,14.811,14.565l119.891-29.069   L27.473,390.597L0.3,512.69z" /></g>
 													</svg>
 												</button>
-												
+
 												<input ref={editFileInputRef} type="file" style={{ display: 'none' }}
 													onChange={(e) => {
 														if (e.target.files[0].type === "image/jpeg" || e.target.files[0].type === "image/png") {
@@ -456,8 +441,8 @@ function Products() {
 					<Modal.Footer>
 						<button className='btn btn-outline-danger' style={{ transition: "color 0.4s, background-color 0.4s" }} onClick={() => { handleEditModalClose() }}>Cancel</button>
 						{
-							permission!==null && permission.edit &&
-							<button className='btn btn-outline-success' style={{ transition: "color 0.4s, background-color 0.4s" }} 
+							permission !== null && permission.edit &&
+							<button className='btn btn-outline-success' style={{ transition: "color 0.4s, background-color 0.4s" }}
 								onClick={(e) => {
 									swal({
 										title: "Are you sure?",
@@ -465,11 +450,11 @@ function Products() {
 										buttons: true,
 										dangerMode: true,
 									})
-									.then((willDelete) => {
-										if (willDelete) {
-											updateProduct()
-										}
-									});
+										.then((willDelete) => {
+											if (willDelete) {
+												updateProduct()
+											}
+										});
 								}}
 							>Update
 							</button>

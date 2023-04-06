@@ -5,6 +5,7 @@
 	margin: 0.3rem 0.8rem;
 	background-color: #cdc8c8;
 	border-radius: 50%;
+	cursor: pointer;
 
 	@media screen and (max-width: 768px) {
 		position: absolute;
@@ -29,7 +30,6 @@
 		.logo {
 			font-size: 25px;
 			font-weight: bold;
-			// color: #6439ff;
 			color: #2cd498;
 		}
 	}
@@ -143,7 +143,6 @@
 		.logo {
 			font-size: 25px;
 			font-weight: bold;
-			// color: #6439ff;
 			color: #2cd498;
 		}
 	}

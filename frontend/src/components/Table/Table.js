@@ -111,7 +111,7 @@ function Table(props) {
 						:
 						props.data.map((obj, i) => {
 							let fobj = {...obj}
-							let arr = unsetColumns.map(a=>props.headers.findIndex(b=>b==a))
+							let arr = unsetColumns.map(a=>props.headers.findIndex(b=>b===a))
 							
 							arr.map(x=>Object.keys(fobj)[x]).forEach(x=>{
 								delete fobj[x]

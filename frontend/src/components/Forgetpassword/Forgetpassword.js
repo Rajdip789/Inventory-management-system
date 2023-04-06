@@ -1,9 +1,11 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
+
 import "./Forgetpassword.scss";
 
 function Forgetpassword() {
   return (
-	<div>Forgetpassword</div>
+    <Link to='/login'>Forgetpassword</Link>
   )
 }
 

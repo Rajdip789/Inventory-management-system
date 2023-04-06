@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import './SupplierAddNew.scss'
 
 import swal from 'sweetalert';
-import { setCookie, getCookie } from '../../cookie';
 import Error from '../PageStates/Error';
 import Loader from '../PageStates/Loader';
 
@@ -17,53 +16,41 @@ function SupplierAddNew() {
 	const [submitButtonState, setSubmitButtonState] = useState(false)
 
 	useEffect(() => {
-		if (getCookie('accessToken') !== '') {
-			let obj = {}
-			obj.access_token = getCookie('accessToken');
 
-			fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
-				method: 'POST',
-				headers: {
-					'Content-type': 'application/json; charset=UTF-8',
-				},
-				body: JSON.stringify(obj)
-			})
-				.then(async (response) => {
-					let body = await response.json()
-					// console.log(body)
-					if (body.operation === 'success') {
+		fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/verifiy_token`, {
+			method: 'POST',
+			credentials: 'include'
+		})
+			.then(async (response) => {
+				let body = await response.json()
+				// console.log(body)
+				if (body.operation === 'success') {
 
-						fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
-							method: 'POST',
-							headers: {
-								'Content-type': 'application/json; charset=UTF-8',
-								'access_token': getCookie('accessToken'),
-							},
+					fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/get_permission`, {
+						method: 'POST',
+						credentials: 'include'
+					})
+						.then(async (response) => {
+							let body = await response.json()
+
+							//console.log(JSON.parse(body.info));
+							let p = JSON.parse(body.info).find(x => x.page === 'suppliers')
+							if (p.view && p.create) {
+								setPermission(p)
+							} else {
+								window.location.href = '/unauthorized';
+							}
 						})
-							.then(async (response) => {
-								let body = await response.json()
-
-								//console.log(JSON.parse(body.info));
-								let p = JSON.parse(body.info).find(x => x.page === 'suppliers')
-								if (p.view && p.create) {
-									setPermission(p)
-								} else {
-									window.location.href = '/unauthorized';
-								}
-							})
-							.catch((error) => {
-								console.log(error)
-							})
-					} else {
-						window.location.href = '/login'
-					}
-				})
-				.catch((error) => {
-					console.log(error)
-				})
-		} else {
-			window.location.href = '/login'
-		}
+						.catch((error) => {
+							console.log(error)
+						})
+				} else {
+					window.location.href = '/login'
+				}
+			})
+			.catch((error) => {
+				console.log(error)
+			})
 	}, [])
 
 	useEffect(() => {
@@ -104,10 +91,10 @@ function SupplierAddNew() {
 		let response = await fetch(`${process.env.REACT_APP_BACKEND_ORIGIN}/add_supplier`, {
 			method: 'POST',
 			headers: {
-				'Content-type': 'application/json; charset=UTF-8',
-				'access_token': getCookie('accessToken')
+				'Content-type': 'application/json; charset=UTF-8'
 			},
-			body: JSON.stringify(obj)
+			body: JSON.stringify(obj),
+			credentials: 'include'
 		})
 		let body = await response.json()
 
@@ -135,7 +122,7 @@ function SupplierAddNew() {
 
 			{
 				pageState === 1 ?
-					<Loader/>
+					<Loader />
 					: pageState === 2 ?
 						<div className="card">
 							<div className="container" style={{ display: "flex", flexDirection: "column" }}>
@@ -147,7 +134,7 @@ function SupplierAddNew() {
 												<label className='fw-bold'>Name</label>
 												<input className='my_input' type='text' value={name} onChange={(e) => { setName(e.target.value) }} />
 											</div>
-											
+
 											<div className='col'>
 												<label className='fw-bold'>Email</label>
 												<input className='my_input' type='email' value={email} onChange={(e) => { setEmail(e.target.value) }} />
@@ -171,7 +158,7 @@ function SupplierAddNew() {
 							</div>
 						</div>
 						:
-						<Error/>
+						<Error />
 			}
 		</div>
 	)

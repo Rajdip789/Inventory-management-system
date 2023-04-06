@@ -9,7 +9,7 @@ class Supplier {
 
 	getSuppliers = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -62,7 +62,7 @@ class Supplier {
 
 	addSupplier = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -103,7 +103,7 @@ class Supplier {
 
 	updateSupplier = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -143,7 +143,7 @@ class Supplier {
 
 	getSuppiersSearch = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -172,7 +172,7 @@ class Supplier {
 
 	deleteSupplier = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 

@@ -9,7 +9,7 @@ class Expense {
 
 	getExpenses = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -61,7 +61,7 @@ class Expense {
 
 	addExpense = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 
@@ -110,7 +110,7 @@ class Expense {
 
 	deleteExpense = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
+			let d = jwt.decode(req.cookies.accessToken, { complete: true });
 			let email = d.payload.email;
 			let role = d.payload.role;
 

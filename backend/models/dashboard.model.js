@@ -8,10 +8,6 @@ class Dashboard {
 
 	getReportStats = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
-			let email = d.payload.email;
-			let role = d.payload.role;
-
 			new Promise((resolve, reject) => {
 				let p1 = new Promise((rs, rj) => {
 					let q = 'SELECT (SELECT COUNT(*) FROM user WHERE user_role="employee") AS employee_count, (SELECT COUNT(*) FROM customers) AS customer_count, (SELECT COUNT(*) FROM suppliers) AS supplier_count FROM dual'
@@ -66,10 +62,6 @@ class Dashboard {
 
 	getProductStats = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
-			let email = d.payload.email;
-			let role = d.payload.role;
-
 			new Promise((resolve, reject) => {
 				let p1 = new Promise((rs, rj) => {
 					let q = 'SELECT COUNT(*) AS total_products FROM products'
@@ -160,10 +152,6 @@ class Dashboard {
 
 	getGraphStats = (req, res) => {
 		try {
-			let d = jwt.decode(req.headers.access_token, { complete: true });
-			let email = d.payload.email;
-			let role = d.payload.role;
-
 			new Promise((resolve, reject) => {
 				let q1 = "SELECT SUM(grand_total) as Total, DATE_FORMAT(timeStamp, '%Y-%m') as YearMonth FROM `orders` WHERE DATE_FORMAT(timeStamp, '%Y-%m') > DATE_FORMAT(DATE_SUB(CURRENT_DATE, INTERVAL 12 MONTH),'%Y-%m') GROUP BY DATE_FORMAT(timeStamp, '%Y-%m') ORDER BY timeStamp"
 				db.query(q1, (err1, result1) => {
