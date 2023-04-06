@@ -36,9 +36,13 @@ It is a software where an organization can manage their product stock, customers
 
 <h2>📝 How to Contribute? </h2>
 
-<p align="center" width="100%">
-    <img width="88%" src="" alter="Landing Page">
-</p>
+<table>
+  <tr>
+    <td valign="top"><img src="https://github.com/Rajdip789/Inventory-management-system/blob/main/frontend/public/images/showcase1.png" alter="Landing Page"/></td>
+    <td valign="top"><img src="https://github.com/Rajdip789/Inventory-management-system/blob/main/frontend/public/images/showcase2.png" alter="Landing Page"/></td>
+  </tr>
+</table>
+
 If you want to contribute to the project, you can follow the steps given below:
 
 1. Star this repository.
