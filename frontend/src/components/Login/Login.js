@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import './Login.scss';
 
+import { SnackbarProvider, enqueueSnackbar } from 'notistack';
 import swal from 'sweetalert';
 import CryptoJS from 'crypto-js';
 import { Link } from 'react-router-dom';
@@ -10,6 +11,7 @@ function Login() {
 	const [email, setEmail] = useState('');
 	const [password, setPassword] = useState('');
 	const [submitButtonState, setSubmitButtonState] = useState(false);
+	let msg = 'Admin: email- testadmin@gmail.com, password- testadmin@12345\nEmployee: email- testemp@gmail.com, password- testemp@12345'
 
 	useEffect(() => {
 
@@ -19,7 +21,7 @@ function Login() {
 			})
 			.then(async (response) => {
 				let body = await response.json()
-				console.log(body)
+				//console.log(body)
 				if (body.operation === 'success') {
 					window.location.href = '/dashboard'
 				}
@@ -81,6 +83,16 @@ function Login() {
 				</div>
 
 				<div className="login-content">
+					<SnackbarProvider 
+						maxSnack={1}
+						autoHideDuration={10000}
+						variant='success'
+						anchorOrigin={{
+							vertical: 'top',
+							horizontal: 'left',
+						}}
+						dense='true'
+					/>
 					<div className='myform'>
 						<img alt='profile' src="./images/avatar.svg" />
 						<h1 className="title">Welcome Back!</h1>
@@ -89,7 +101,7 @@ function Login() {
 								<EmailOutlined/>
 							</div>
 							<div className="div">
-								<input type="email" placeholder='Email Id' name="email" value={email} onChange={e => setEmail(e.target.value.trim())} />
+								<input type="email" placeholder='Email Id' name="email" value={email} onClick={() => enqueueSnackbar(msg, {style: {variant: 'error', whiteSpace: 'pre-line' }})} onChange={e => setEmail(e.target.value.trim())} />
 							</div>
 						</div>
 						<div className="input-div pass">

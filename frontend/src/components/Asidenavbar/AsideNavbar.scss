@@ -12,6 +12,7 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+		z-index: 99999;
 	}
 }
 
@@ -114,12 +115,12 @@
 
 .asideNavbar__menu {
 	height: 100vh;
-	min-width: 250px;
+	min-width: 230px;
 	background-color: rgb(224 221 239 / 75%);
 	backdrop-filter: blur(20px);
 	position: absolute;
 	left: -20rem;
-	z-index: 2;
+	z-index: 99999999;
 	transition: all 0.5s ease-in-out;
 
 	.toggelDiv {
@@ -184,7 +185,7 @@
 				}
 
 				span {
-					font-size: 22px;
+					font-size: 18px;
 					font-weight: 600;
 					color: rgb(101, 101, 101);
 					margin-left: 10px;
