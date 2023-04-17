@@ -17,5 +17,19 @@
 			"DELETE"
 		]
 	  }
-	]
+	],
+	"headers": [
+	    {
+	       "source": "/(.*)",
+	       "headers": [
+	          { "key": "Access-Control-Allow-Origin", "value": "https://stockmerch.vercel.app/" }
+	        ]
+	   },
+	   {
+	       "source": "https://stockmerch.vercel.app/(.*)",
+	       "headers": [
+	          { "key": "Access-Control-Allow-Origin", "value": "https://stockmerch.vercel.app" }
+	       ]
+	   }  
+       ]
   }
