@@ -83,7 +83,7 @@ function Profile() {
 			let p1 = getProfile();
 			Promise.all([p1])
 				.then(() => {
-					console.log('All apis done')
+					//console.log('All apis done')
 					setPageState(2);
 				})
 				.catch((err) => {
@@ -124,7 +124,7 @@ function Profile() {
 		let body = await response.json()
 
 		setSubmitButtonState(false)
-		console.log(body)
+		//console.log(body)
 
 		if (body.operation === 'success') {
 			console.log('Profile updated successfully')
@@ -164,7 +164,7 @@ function Profile() {
 		let body = await response.json()
 
 		setSubmitButtonState2(false)
-		console.log(body)
+		//console.log(body)
 
 		if (body.operation === 'success') {
 			console.log('Password updated successfully')

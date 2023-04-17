@@ -168,7 +168,7 @@ function OrderAddNew() {
 		let body = await response.json()
 
 		setSubmitButtonState(false)
-		console.log(body)
+		//console.log(body)
 
 		if (body.operation === 'success') {
 			console.log('Order created successfully')

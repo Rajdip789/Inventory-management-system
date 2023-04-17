@@ -100,7 +100,7 @@ function Expenses() {
 			let p1 = getExpenses((tablePage - 1) * 10, sortColumn, sortOrder, searchInput);
 			Promise.all([p1])
 				.then(() => {
-					console.log('All apis done')
+					//console.log('All apis done')
 					setPageState(2);
 				})
 				.catch((err) => {

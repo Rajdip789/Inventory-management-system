@@ -106,7 +106,7 @@ function Products() {
 			let p1 = getProducts((tablePage - 1) * 10, sortColumn, sortOrder, searchInput);
 			Promise.all([p1])
 				.then(() => {
-					console.log('All apis done')
+					//console.log('All apis done')
 					setPageState(2);
 				})
 				.catch((err) => {
@@ -273,7 +273,7 @@ function Products() {
 		let body = await response.json()
 
 		setEditModalSubmitButton(false)
-		console.log(body)
+		//console.log(body)
 
 		if (body.operation === 'success') {
 			console.log('Product updated successfully')

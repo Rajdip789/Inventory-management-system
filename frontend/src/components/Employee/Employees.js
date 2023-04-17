@@ -91,7 +91,7 @@ function Employees() {
 			let p1 = getEmployees((tablePage - 1) * 10, sortColumn, sortOrder, searchInput);
 			Promise.all([p1])
 				.then(() => {
-					console.log('All apis done')
+					//console.log('All apis done')
 					setPageState(2);
 				})
 				.catch((err) => {
@@ -216,7 +216,7 @@ function Employees() {
 		let body = await response.json()
 
 		setEditModalSubmitButton(false)
-		console.log(body)
+		//console.log(body)
 
 		if (body.operation === 'success') {
 			console.log('Employee updated successfully')

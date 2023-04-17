@@ -91,7 +91,7 @@ function Customer() {
 			let p1 = getCustomers((tablePage - 1) * 10, sortColumn, sortOrder, searchInput);
 			Promise.all([p1])
 				.then(() => {
-					console.log('All apis done')
+					//console.log('All apis done')
 					setPageState(2);
 				})
 				.catch((err) => {
@@ -216,7 +216,7 @@ function Customer() {
 		let body = await response.json()
 
 		setEditModalSubmitButton(false)
-		console.log(body)
+		//console.log(body)
 
 		if (body.operation === 'success') {
 			console.log('Customer updated successfully')
