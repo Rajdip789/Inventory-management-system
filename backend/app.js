@@ -14,7 +14,7 @@ app.use(cookieParser())
 
 
 const corsOption = {
-    origin: ['*'],
+    origin: ['https://stockmerch.vercel.app'],
 	methods: ['GET', 'POST', 'DELETE'], 
 	credentials: true,
 };
