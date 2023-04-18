@@ -33,7 +33,7 @@ class User {
 								process.env.JWT_SEC,
 								{ expiresIn: process.env.JWT_EXPIRY }
 							)
-							res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 60*60*1000 }); 
+							res.cookie('accessToken', accessToken, { httpOnly: true, maxAge: 60*60*1000, sameSite: 'none', secure: true }); 
 							resolve({ operation: "success", message: 'login successfull' });
 						} else {
 							reject({ operation: "error", message: 'password wrong' });
@@ -57,7 +57,7 @@ class User {
 	}
 
 	logout = (req, res) => {
-		res.cookie("accessToken", "", { maxAge: 1 });
+		res.cookie("accessToken", "", { maxAge: 1, sameSite: 'none', secure: true });
 		res.send({ operation: "success", message: 'Logout successfully'});
 	  };
 
@@ -74,7 +74,7 @@ class User {
 				process.env.JWT_SEC,
 				{ expiresIn: process.env.JWT_EXPIRY }
 			);
-			res.cookie('accessToken', newToken, { httpOnly: true }); 
+			res.cookie('accessToken', newToken, { httpOnly: true, sameSite: 'none', secure: true }); 
 			res.send({ operation: "success", message: 'Token refreshed' });
 		} catch (error) {
 			console.log(error);
