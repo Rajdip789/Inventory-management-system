@@ -4,7 +4,11 @@
 	  {
 		"src": "app.js",
 		"use": "@vercel/node"
-	  }
+	  },
+	  {
+            "src": "public/**",
+            "use": "@vercel/static"
+          }
 	],
 	"rewrites": [
         	{ "source": "/(.*)", "destination": "app.js" }
